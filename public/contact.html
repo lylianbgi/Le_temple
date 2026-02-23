@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact | Le Temple</title>
+  <meta name="description" content="Contacter Le Temple: informations, horaires, demandes de renseignements et accompagnement client.">
+  <meta name="theme-color" content="#2b6a4a">
+  <link rel="canonical" href="https://letemple-spa.fr/contact.html">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Urbanist:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero small-hero">
+    <nav class="nav">
+      <div class="brand">LE TEMPLE</div>
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" data-i18n="menu">Menu</button>
+      <div class="menu">
+        <a href="index.html" data-i18n="nav_home">Accueil</a>
+        <a href="concept.html" data-i18n="nav_concept">Concept</a>
+        <a href="cabines.html" data-i18n="nav_cabins">Cabines</a>
+        <a href="soins.html" data-i18n="nav_care">Soins</a>
+        <a href="jeu.html" data-i18n="nav_game">Jeu</a>
+        <a href="reservation.html" data-i18n="nav_booking">Reservation</a>
+        <a href="contact.html" data-i18n="nav_contact">Contact</a>
+        <a href="connexion.html" data-i18n="nav_login">Connexion</a>
+      </div>
+      <button class="lang-toggle" type="button" data-lang-toggle>EN</button>
+      <a class="cta" href="reservation.html" data-i18n="cta_book">Reserver</a>
+    </nav>
+    <div class="hero-content reveal">
+      <p class="eyebrow">Besoin d'informations</p>
+      <h1>Contact</h1>
+    </div>
+  </header>
+
+  <main>
+    <section class="section reveal">
+      <h2>Le Temple en images</h2>
+      <div class="media-grid">
+        <article class="media">
+          <img src="https://images.pexels.com/photos/4170175/pexels-photo-4170175.jpeg?cs=srgb&dl=pexels-enginakyurt-4170175.jpg&fm=jpg" alt="Cabine de massage" loading="lazy">
+          <p>Un lieu calme, raffine et chaleureux.</p>
+        </article>
+        <article class="media">
+          <img src="https://images.pexels.com/photos/35884502/pexels-photo-35884502.jpeg?cs=srgb&dl=pexels-vika-glitter-392079-35884502.jpg&fm=jpg" alt="Detail de table de soin" loading="lazy">
+          <p>Nous repondons rapidement a chaque demande.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Coordonnees</h2>
+      <p>Email: contact@letemple-spa.fr</p>
+      <p>Telephone: +33 1 80 00 00 00</p>
+      <p>Adresse: 12 Avenue du Voyage Sensoriel, 75000 Paris</p>
+      <p>Horaires: Lundi - Dimanche, 10h00 - 22h00</p>
+    </section>
+
+    <section class="section reveal form-section">
+      <h2>Envoyer un message</h2>
+      <form class="spa-form api-form" data-endpoint="/api/contacts">
+        <label>Nom
+          <input type="text" name="nom" required>
+        </label>
+        <label>Email
+          <input type="email" name="email" required>
+        </label>
+        <label>Sujet
+          <input type="text" name="sujet" required>
+        </label>
+        <label>Message
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+        <button type="submit" class="cta">Envoyer</button>
+        <p class="form-status" data-form-status aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Le Temple - 2026</p>`r`n    <a class="employee-link" href="employes.html">Acces employe</a>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+

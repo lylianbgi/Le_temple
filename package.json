@@ -1,0 +1,9 @@
+{
+  "name": "le-temple-v2",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site vitrine et reservation pour Le Temple spa",
+  "scripts": {
+    "start": "node server/server.js"
+  }
+}

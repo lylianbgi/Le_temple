@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Espace Employes | Le Temple</title>
+  <meta name="description" content="Espace responsable employes: planning, demandes clients et gestion des stocks.">
+  <meta name="theme-color" content="#2b6a4a">
+  <link rel="canonical" href="https://letemple-spa.fr/employes.html">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero small-hero">
+    <nav class="nav">
+      <div class="brand">LE TEMPLE</div>
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" data-i18n="menu">Menu</button>
+      <div class="menu">
+        <a href="index.html" data-i18n="nav_home">Accueil</a>
+        <a href="concept.html" data-i18n="nav_concept">Concept</a>
+        <a href="cabines.html" data-i18n="nav_cabins">Cabines</a>
+        <a href="soins.html" data-i18n="nav_care">Soins</a>
+        <a href="jeu.html" data-i18n="nav_game">Jeu</a>
+        <a href="reservation.html" data-i18n="nav_booking">Reservation</a>
+        <a href="contact.html" data-i18n="nav_contact">Contact</a>
+        <a href="connexion.html" data-i18n="nav_login">Connexion</a>
+      </div>
+      <button class="lang-toggle" type="button" data-lang-toggle>EN</button>
+      <a class="cta" href="reservation.html" data-i18n="cta_book">Reserver</a>
+    </nav>
+    <div class="hero-content reveal">
+      <p class="eyebrow">Back-office</p>
+      <h1>Espace responsable employes</h1>
+      <p class="lead">Suivi planning, demandes clients et stocks en temps reel.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="section reveal form-section" id="employeeLoginBox">
+      <h2>Connexion employe</h2>
+      <form class="spa-form" id="employeeLoginForm">
+        <label>Code employe
+          <input type="password" id="employeeCode" required>
+        </label>
+        <button class="cta" type="submit">Se connecter</button>
+        <p class="form-status" id="employeeStatus" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="section reveal" id="employeeApp" hidden>
+      <div class="employee-actions">
+        <button class="cta danger" type="button" id="employeeLogoutBtn">Deconnexion</button>
+      </div>
+      <div class="split">
+        <article class="panel">
+          <h3>Planning</h3>
+          <div class="table-wrap">
+            <table id="planningTable">
+              <thead><tr><th>Date</th><th>Heure</th><th>Total</th><th>Details</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+        <article class="panel">
+          <h3>Demandes clients</h3>
+          <div class="table-wrap">
+            <table id="demandesTable">
+              <thead><tr><th>Date</th><th>Nom</th><th>Sujet</th><th>Message</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal" id="employeeStockSection" hidden>
+      <h2>Stocks</h2>
+      <div class="table-wrap">
+        <table id="stocksTable">
+          <thead><tr><th>Produit</th><th>Quantite</th><th>Unite</th><th>Maj</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="form-status" id="stocksStatus" aria-live="polite"></p>
+    </section>
+
+    <section class="section reveal form-section" id="employeeNotesSection" hidden>
+      <h2>Notes planning</h2>
+      <form class="spa-form" id="planningNoteForm">
+        <label>Nouvelle note
+          <textarea id="planningNoteInput" rows="3" required></textarea>
+        </label>
+        <button class="cta" type="submit">Ajouter la note</button>
+      </form>
+      <ul class="price-list" id="planningNotesList"></ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Le Temple - 2026</p>`r`n    <a class="employee-link" href="employes.html">Acces employe</a>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
+

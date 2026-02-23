@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jeu Fidelite | Le Temple</title>
+  <meta name="description" content="Jeu fidelite Le Temple: un tirage par jour pour gagner des points et avantages bien-etre.">
+  <meta name="theme-color" content="#2b6a4a">
+  <link rel="canonical" href="https://letemple-spa.fr/jeu.html">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Urbanist:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero small-hero">
+    <nav class="nav">
+      <div class="brand">LE TEMPLE</div>
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" data-i18n="menu">Menu</button>
+      <div class="menu">
+        <a href="index.html" data-i18n="nav_home">Accueil</a>
+        <a href="concept.html" data-i18n="nav_concept">Concept</a>
+        <a href="cabines.html" data-i18n="nav_cabins">Cabines</a>
+        <a href="soins.html" data-i18n="nav_care">Soins</a>
+        <a href="jeu.html" data-i18n="nav_game">Jeu</a>
+        <a href="reservation.html" data-i18n="nav_booking">Reservation</a>
+        <a href="contact.html" data-i18n="nav_contact">Contact</a>
+        <a href="connexion.html" data-i18n="nav_login">Connexion</a>
+      </div>
+      <button class="lang-toggle" type="button" data-lang-toggle>EN</button>
+      <a class="cta" href="reservation.html" data-i18n="cta_book">Reserver</a>
+    </nav>
+    <div class="hero-content reveal">
+      <p class="eyebrow">Programme fidelite</p>
+      <h1>Jeu quotidien</h1>
+      <p class="lead">Un tirage par jour pour gagner des points et des avantages exclusifs.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="section reveal game-shell">
+      <h2>Mon espace jeu</h2>
+      <label>Email client
+        <input type="email" id="gameEmail" placeholder="votre@email.com">
+      </label>
+      <div class="game-actions">
+        <button type="button" class="cta" id="gameLoadBtn">Charger mon profil</button>
+        <button type="button" class="cta" id="gameSpinBtn">Lancer mon tirage du jour</button>
+      </div>
+      <p class="form-status" id="gameStatus" aria-live="polite"></p>
+      <div class="game-stats">
+        <article class="price-card">
+          <h3>Points</h3>
+          <p class="game-points" id="gamePoints">0</p>
+        </article>
+        <article class="price-card">
+          <h3>Dernier tirage</h3>
+          <p id="gameLastSpin">Aucun tirage</p>
+        </article>
+      </div>
+      <article class="price-card">
+        <h3>Historique recent</h3>
+        <ul class="price-list" id="gameHistory">
+          <li><span>Aucune partie pour le moment</span><strong>-</strong></li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Le Temple - 2026</p>`r`n    <a class="employee-link" href="employes.html">Acces employe</a>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
+
+

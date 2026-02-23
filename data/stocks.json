@@ -1,0 +1,32 @@
+[
+  {
+    "id": "huile_neutre",
+    "name": "Huile neutre",
+    "qty": 16,
+    "unit": "flacons"
+  },
+  {
+    "id": "serviettes",
+    "name": "Serviettes",
+    "qty": 84,
+    "unit": "pieces"
+  },
+  {
+    "id": "pochons",
+    "name": "Pochons",
+    "qty": 31,
+    "unit": "sets"
+  },
+  {
+    "id": "bougies",
+    "name": "Bougies",
+    "qty": 40,
+    "unit": "pieces"
+  },
+  {
+    "id": "savon_noir",
+    "name": "Savon noir",
+    "qty": 12,
+    "unit": "pots"
+  }
+]

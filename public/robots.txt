@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://letemple-spa.fr/sitemap.xml
