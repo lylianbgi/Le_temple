@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: le-temple
+    env: node
+    plan: free
+    buildCommand: ""
+    startCommand: "npm start"
+    envVars:
+      - key: EMPLOYEE_CODE
+        value: change_me
+      - key: EMPLOYEE_IDLE_MINUTES
+        value: "5"
+      - key: EMPLOYEE_COOKIE_SECURE
+        value: "true"
+      - key: LOG_LEVEL
+        value: info
