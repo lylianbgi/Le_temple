@@ -18,8 +18,8 @@
   <header class="hero small-hero">
     <nav class="nav">
       <div class="brand">LE TEMPLE</div>
-      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" data-i18n="menu">Menu</button>
-      <div class="menu">
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu" data-i18n="menu">Menu</button>
+      <div class="menu" id="site-menu">
         <a href="index.html" data-i18n="nav_home">Accueil</a>
         <a href="concept.html" data-i18n="nav_concept">Concept</a>
         <a href="cabines.html" data-i18n="nav_cabins">Cabines</a>
@@ -27,7 +27,7 @@
         <a href="jeu.html" data-i18n="nav_game">Jeu</a>
         <a href="reservation.html" data-i18n="nav_booking">Reservation</a>
         <a href="contact.html" data-i18n="nav_contact">Contact</a>
-        <a href="connexion.html" data-i18n="nav_login">Connexion</a>
+        <a href="connexion.html" aria-current="page" data-i18n="nav_login">Connexion</a>
       </div>
       <button class="lang-toggle" type="button" data-lang-toggle>EN</button>
       <a class="cta" href="reservation.html" data-i18n="cta_book">Reserver</a>
@@ -72,7 +72,8 @@
   </main>
 
   <footer class="footer">
-    <p>Le Temple - 2026</p>`r`n    <a class="employee-link" href="employes.html">Acces employe</a>
+    <p>Le Temple - 2026</p>
+    <a class="employee-link" href="employes.html">Acces employe</a>
   </footer>
   <script src="script.js"></script>
 </body>

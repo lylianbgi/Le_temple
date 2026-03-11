@@ -171,14 +171,22 @@ if (revealElements.length > 0) {
 }
 
 if (menuToggle && menu) {
+  menuToggle.setAttribute("aria-expanded", "false");
   menuToggle.addEventListener("click", () => {
-    menu.classList.toggle("open");
+    const isOpen = menu.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
   });
 }
 
 function applyLanguage(lang) {
   const dict = i18n[lang] || i18n.fr;
   document.documentElement.lang = lang;
+  if (menuToggle) {
+    menuToggle.setAttribute("aria-label", lang === "fr" ? "Ouvrir le menu" : "Open menu");
+  }
+  langButtons.forEach((btn) => {
+    btn.setAttribute("aria-label", lang === "fr" ? "Passer en anglais" : "Switch to French");
+  });
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     const key = el.getAttribute("data-i18n");
     if (dict[key]) el.textContent = dict[key];
@@ -201,6 +209,7 @@ function translateString(value, lang) {
 }
 
 function translateWholePage(lang) {
+  if (!document.body) return;
   const skipTags = new Set(["SCRIPT", "STYLE", "NOSCRIPT"]);
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   const textNodes = [];
@@ -297,7 +306,7 @@ document.querySelectorAll(".api-form").forEach((form) => {
     const endpoint = form.dataset.endpoint;
     if (!endpoint) return;
     const submitButton = form.querySelector("button[type='submit']");
-    submitButton.disabled = true;
+    if (submitButton) submitButton.disabled = true;
     setStatus(form, "Envoi en cours...");
     try {
       const payload = formDataAsObject(form);
@@ -311,7 +320,7 @@ document.querySelectorAll(".api-form").forEach((form) => {
     } catch (error) {
       setStatus(form, error.message, true);
     } finally {
-      submitButton.disabled = false;
+      if (submitButton) submitButton.disabled = false;
     }
   });
 });
@@ -372,8 +381,9 @@ async function refreshAvailability() {
   }
 }
 
-const reservationDateInput = document.querySelector("input[name='date']");
-if (reservationDateInput) {
+function initReservationDate() {
+  const reservationDateInput = document.querySelector("input[name='date']");
+  if (!reservationDateInput) return;
   const cabinSelect = document.querySelector("#cabineSelect");
   const today = new Date().toISOString().slice(0, 10);
   reservationDateInput.min = today;
@@ -447,8 +457,13 @@ function applyReservationPrefillFromQuery() {
   }
 }
 
-applyReservationPrefillFromQuery();
-loadCatalogOptions();
+async function initReservationPage() {
+  await loadCatalogOptions();
+  applyReservationPrefillFromQuery();
+  initReservationDate();
+}
+
+initReservationPage();
 
 function renderGameProfile(profile) {
   const pointsEl = document.querySelector("#gamePoints");

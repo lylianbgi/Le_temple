@@ -76,6 +76,7 @@ body {
   color: #f0fff5;
   border-radius: 0.5rem;
   padding: 0.5rem 0.7rem;
+  cursor: pointer;
 }
 
 .lang-toggle {
@@ -102,6 +103,21 @@ body {
 
 .cta:hover {
   transform: translateY(-2px);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(240, 255, 245, 0.9);
+  outline-offset: 3px;
+}
+
+main a:focus-visible,
+.anchor-nav a:focus-visible,
+.employee-link:focus-visible {
+  outline-color: rgba(31, 82, 56, 0.85);
 }
 
 .cta.danger {
@@ -132,6 +148,11 @@ body {
 
 .employee-link:hover {
   opacity: 0.8;
+}
+
+.menu a[aria-current="page"] {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(240, 255, 245, 0.85);
 }
 
 .hero-content {
