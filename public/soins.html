@@ -18,7 +18,6 @@
   <header class="hero small-hero">
     <nav class="nav">
       <div class="brand">LE TEMPLE</div>
-      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu" data-i18n="menu">Menu</button>
       <div class="menu" id="site-menu">
         <a href="index.html" data-i18n="nav_home">Accueil</a>
         <a href="concept.html" data-i18n="nav_concept">Concept</a>
@@ -29,85 +28,238 @@
         <a href="contact.html" data-i18n="nav_contact">Contact</a>
         <a href="connexion.html" data-i18n="nav_login">Connexion</a>
       </div>
+      <button class="menu-backdrop" type="button" tabindex="-1" aria-hidden="true"></button>
       <button class="lang-toggle" type="button" data-lang-toggle>EN</button>
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu" data-i18n="menu">
+        <span class="menu-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="sr-only">Menu</span>
+      </button>
       <a class="cta" href="reservation.html" data-i18n="cta_book">Reserver</a>
     </nav>
     <div class="hero-content reveal">
       <p class="eyebrow">Catalogue des experiences</p>
       <h1>Soins et Rituels</h1>
+      <p class="lead">
+        Au Temple, chaque soin est pense comme une parenthese de calme, de beaute et de recentrage.
+        Massages du monde, rituels enveloppants et soins du visage vous invitent a choisir l'experience qui vous ressemble.
+      </p>
     </div>
   </header>
 
   <main>
     <section class="section reveal">
-      <h2>Univers visuel</h2>
+      <h2>L'esprit du Temple</h2>
+      <p>
+        Ici, le soin commence des votre arrivee. Nous avons imagine une carte claire, sensorielle et rassurante,
+        pour vous permettre de choisir selon votre energie du moment: relacher, recuperer, reequilibrer ou simplement vous offrir du temps.
+      </p>
+      <div class="chips">
+        <span>Lacher-prise</span>
+        <span>Corps & esprit</span>
+        <span>Gestuelles expertes</span>
+        <span>Atmosphere apaisante</span>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>L'atmosphere du Temple</h2>
       <div class="media-grid">
         <article class="media">
           <img src="https://images.pexels.com/photos/4170175/pexels-photo-4170175.jpeg?cs=srgb&dl=pexels-enginakyurt-4170175.jpg&fm=jpg" alt="Salle de soin spa" loading="lazy">
-          <p>Salles de soin pensees pour la relaxation profonde.</p>
+          <p>Des cabines de soin feutrees, pensees pour inviter le corps a ralentir et l'esprit a se deposer.</p>
         </article>
         <article class="media">
           <img src="https://images.pexels.com/photos/35546241/pexels-photo-35546241.jpeg?cs=srgb&dl=pexels-vika-glitter-392079-35546241.jpg&fm=jpg" alt="Materiel de rituel spa" loading="lazy">
-          <p>Accessoires et textures pour enrichir chaque protocole.</p>
+          <p>Des textures, accessoires et chaleurs choisies avec soin pour enrichir chaque protocole.</p>
         </article>
         <article class="media">
           <img src="https://images.pexels.com/photos/35884502/pexels-photo-35884502.jpeg?cs=srgb&dl=pexels-vika-glitter-392079-35884502.jpg&fm=jpg" alt="Ambiance de table de massage" loading="lazy">
-          <p>Ambiance douce et precision des details.</p>
+          <p>Une ambiance douce, precise et rassurante, ou chaque detail participe au bien-etre.</p>
         </article>
       </div>
     </section>
 
     <section class="section reveal">
       <h2>Massages du monde</h2>
-      <div class="grid">
-        <article class="card">Californien</article>
-        <article class="card">Shiatsu</article>
-        <article class="card">Suedois</article>
-        <article class="card">Thai a l'huile</article>
-        <article class="card">Mauresque</article>
-        <article class="card">Balinais</article>
-        <article class="card">Abhyanga</article>
-        <article class="card">Lomi Lomi</article>
+      <p class="small">
+        Des gestuelles inspirees de traditions reconnues, revisitees dans l'esprit du Temple pour apaiser, delier et reequilibrer.
+      </p>
+      <div class="rituels">
+        <article class="price-card">
+          <h3>Californien</h3>
+          <p class="small">60 min - 95 EUR</p>
+          <p>Un massage enveloppant et fluide, ideal pour relacher le corps en douceur et retrouver une sensation immediate de securite interieure.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> detente musculaire, reduction du stress, apaisement emotionnel, sommeil facilite.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Californien">Reserver ce soin</a>
+        </article>
+        <article class="price-card">
+          <h3>Shiatsu</h3>
+          <p class="small">60 min - 100 EUR</p>
+          <p>Inspire de la tradition japonaise, ce soin par pressions ciblees aide a relancer l'energie et a retrouver un equilibre profond.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> relachement des tensions nerveuses, circulation energetique, recentrage, clarte mentale.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Shiatsu">Reserver ce soin</a>
+        </article>
+        <article class="price-card">
+          <h3>Suedois</h3>
+          <p class="small">60 min - 100 EUR</p>
+          <p>Tonique et structure, ce massage agit en profondeur sur les muscles et convient particulierement aux corps fatigues ou sollicites.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> decontraction musculaire, recuperation physique, meilleure mobilite, sensation de legerete.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Suedois">Reserver ce soin</a>
+        </article>
+        <article class="price-card">
+          <h3>Thai a l'huile</h3>
+          <p class="small">60 min - 105 EUR</p>
+          <p>Une alliance harmonieuse entre etirements doux et manoeuvres a l'huile pour reveiller le corps sans le brusquer.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> assouplissement, relance de l'energie, diminution des raideurs, esprit plus alerte.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Thai%20a%20l%27huile">Reserver ce soin</a>
+        </article>
+        <article class="price-card">
+          <h3>Mauresque</h3>
+          <p class="small">75 min - 120 EUR</p>
+          <p>Chaleureux et enveloppant, ce massage evoque les rituels orientaux et invite a un profond abandon des tensions.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> detente profonde, sensation de cocon, relachement des crispations, apaisement du mental.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Mauresque">Reserver ce soin</a>
+        </article>
+        <article class="price-card">
+          <h3>Balinais</h3>
+          <p class="small">75 min - 120 EUR</p>
+          <p>Un massage rythme, elegant et complet, qui mele pressions, lissages et gestuelle enveloppante.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> relachement musculaire, meilleure circulation, harmonie globale, regain de vitalite.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Balinais">Reserver ce soin</a>
+        </article>
+        <article class="price-card">
+          <h3>Abhyanga</h3>
+          <p class="small">75 min - 125 EUR</p>
+          <p>Herite de l'ayurveda, ce soin a l'huile chaude enveloppe le corps dans un rythme continu, rassurant et profondement reequilibrant.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> detente nerveuse, meilleure circulation, recentrage, sensation d'ancrage.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Abhyanga">Reserver ce soin</a>
+        </article>
+        <article class="price-card">
+          <h3>Lomi Lomi</h3>
+          <p class="small">75 min - 125 EUR</p>
+          <p>Inspire des traditions hawaiennes, ce massage aux mouvements amples et ondulants procure une sensation de vague continue sur tout le corps.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> lacher-prise profond, detente musculaire globale, fluidite corporelle, sensation d'evasion.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Lomi%20Lomi">Reserver ce soin</a>
+        </article>
       </div>
     </section>
 
     <section class="section reveal">
       <h2>Massages avec accessoires</h2>
-      <div class="grid">
-        <article class="card">A la bougie</article>
-        <article class="card">Aux bambous</article>
-        <article class="card">Aux pochons</article>
+      <p class="small">
+        Des soins sensoriels qui associent la main du praticien a la chaleur, a la texture ou a l'energie d'accessoires choisis avec soin.
+      </p>
+      <div class="rituels">
+        <article class="price-card">
+          <h3>A la bougie</h3>
+          <p class="small">60 min - 110 EUR</p>
+          <p>La cire tiede se transforme en huile delicate pour un soin extremement cocooning, ideal lorsque le corps et l'esprit demandent douceur et reconfort.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> nutrition de la peau, detente profonde, relachement emotionnel, chaleur apaisante.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Massage%20a%20la%20bougie">Reserver ce soin</a>
+        </article>
+        <article class="price-card">
+          <h3>Aux bambous</h3>
+          <p class="small">60 min - 115 EUR</p>
+          <p>Les bambous prolongent la main du praticien pour un massage profond, rythme et particulierement efficace sur les tensions installees.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> recuperation musculaire, drainage, tonification, soulagement des zones contractees.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Massage%20aux%20bambous">Reserver ce soin</a>
+        </article>
+        <article class="price-card">
+          <h3>Aux pochons</h3>
+          <p class="small">60 min - 115 EUR</p>
+          <p>Les pochons chauds diffusent leurs bienfaits dans une gestuelle enveloppante et reconfortante, parfaite pour les corps fatigues.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> relachement musculaire, confort articulaire, apaisement du stress, sensation de chaleur profonde.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Massage%20aux%20pochons">Reserver ce soin</a>
+        </article>
       </div>
     </section>
 
     <section class="section reveal">
-      <h2>Rituels</h2>
+      <h2>Rituels signature</h2>
+      <p class="small">
+        De veritables experiences de soin, pensees comme des voyages complets ou gommage, chaleur, massage et detente s'enchainent dans un rythme lent et precieux.
+      </p>
+      <div class="rituels">
+        <article class="price-card">
+          <h3>Rituel Oriental</h3>
+          <p class="small">1 h 45 - 165 EUR</p>
+          <p>Un grand classique du lacher-prise: gommage au savon noir, enveloppement chaud et massage mauresque dans une atmosphere enveloppante.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> peau douce et lumineuse, detente intense, sensation de purification, esprit apaise.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Rituel%20Oriental">Reserver ce rituel</a>
+        </article>
+        <article class="price-card">
+          <h3>Rituel Ayurvedique</h3>
+          <p class="small">1 h 30 - 145 EUR</p>
+          <p>Un rituel reequilibrant qui associe gommage doux et massage abhyanga pour restaurer calme, ancrage et harmonie interieure.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> diminution de la fatigue nerveuse, recentrage, peau souple, detente durable.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Rituel%20Ayurvedique">Reserver ce rituel</a>
+        </article>
+        <article class="price-card">
+          <h3>Rituel Balinais</h3>
+          <p class="small">1 h 30 - 145 EUR</p>
+          <p>Un voyage sensoriel aux notes exotiques, melant gommage et massage balinais pour reveiller le corps tout en favorisant l'evasion.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> peau revitalisee, relance de l'energie, detente musculaire, sensation d'evasion immediate.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Rituel%20Balinais">Reserver ce rituel</a>
+        </article>
+        <article class="price-card">
+          <h3>Rituel Nordique</h3>
+          <p class="small">2 h 15 - 190 EUR</p>
+          <p>Une experience cocooning pensee pour les saisons fraiches, ou chaleur, lenteur et reconfort redonnent au corps toute sa souplesse.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> recuperation profonde, denouement des tensions, apaisement du systeme nerveux, sensation de refuge.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Rituel%20Nordique">Reserver ce rituel</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Soins du visage</h2>
+      <p class="small">
+        Des soins experts pour reveler l'eclat de la peau tout en offrant un veritable moment de detente et de soin de soi.
+      </p>
+      <div class="rituels">
+        <article class="price-card">
+          <h3>Hydratant</h3>
+          <p class="small">60 min - 95 EUR</p>
+          <p>Un soin reconfortant qui nourrit la peau en profondeur et lui redonne souplesse, confort et luminosite.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> peau repulpee, traits defatigues, confort immediat, sensation de fraicheur et de douceur.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Soin%20visage%20hydratant">Reserver ce soin</a>
+        </article>
+        <article class="price-card">
+          <h3>Purifiant</h3>
+          <p class="small">60 min - 95 EUR</p>
+          <p>Un soin clarifiant qui aide la peau a respirer, affine le grain et procure une sensation nette et legere.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> peau assainie, pores resserres, teint plus frais, confort durable.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Soin%20visage%20purifiant">Reserver ce soin</a>
+        </article>
+        <article class="price-card">
+          <h3>Anti-age (Kobido)</h3>
+          <p class="small">75 min - 120 EUR</p>
+          <p>Un soin d'exception inspire du Kobido, alliant precision du geste et relaxation profonde pour lisser les traits et raviver l'eclat.</p>
+          <p class="small-note"><strong>Bienfaits :</strong> traits defroisses, peau tonifiee, eclat du teint, detente profonde du visage et de la machoire.</p>
+          <a class="cta small-cta" href="reservation.html?soin=Soin%20visage%20anti-age%20(Kobido)">Reserver ce soin</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <h2>Nos engagements</h2>
       <div class="rituels">
         <article class="panel">
-          <h3>Rituel Oriental</h3>
-          <p>1h45 - Gommage au savon noir, enveloppement chaud et massage mauresque.</p>
+          <h3>Praticiens experimentes</h3>
+          <p>Une equipe formee, attentive a vos besoins et capable d'ajuster chaque soin a votre etat du moment.</p>
         </article>
         <article class="panel">
-          <h3>Rituel Ayurvedique</h3>
-          <p>1h30 - Gommage doux et massage abhyanga.</p>
+          <h3>Hygiene irreprochable</h3>
+          <p>Cabines, linge, accessoires et surfaces prepares avec la plus grande rigueur entre chaque rendez-vous.</p>
         </article>
         <article class="panel">
-          <h3>Rituel Balinais</h3>
-          <p>1h30 - Gommage exotique et massage balinais.</p>
+          <h3>Tranquillite preservee</h3>
+          <p>Un accueil calme, des transitions douces et le respect du silence, de l'intimite et du rythme de chacun.</p>
         </article>
         <article class="panel">
-          <h3>Rituel Nordique</h3>
-          <p>2h15 - Experience cocooning, hors saison chaude.</p>
+          <h3>Conseil personnalise</h3>
+          <p>Nous vous guidons vers l'experience la plus juste selon votre energie, vos tensions et vos envies du moment.</p>
         </article>
-      </div>
-    </section>
-
-    <section class="section reveal">
-      <h2>Soin du visage</h2>
-      <div class="grid">
-        <article class="card">Hydratant</article>
-        <article class="card">Purifiant</article>
-        <article class="card">Anti-age (Kobido)</article>
       </div>
     </section>
   </main>

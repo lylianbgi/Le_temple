@@ -18,7 +18,6 @@
   <header class="hero small-hero">
     <nav class="nav">
       <div class="brand">LE TEMPLE</div>
-      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu" data-i18n="menu">Menu</button>
       <div class="menu" id="site-menu">
         <a href="index.html" data-i18n="nav_home">Accueil</a>
         <a href="concept.html" data-i18n="nav_concept">Concept</a>
@@ -29,7 +28,12 @@
         <a href="contact.html" data-i18n="nav_contact">Contact</a>
         <a href="connexion.html" data-i18n="nav_login">Connexion</a>
       </div>
+      <button class="menu-backdrop" type="button" tabindex="-1" aria-hidden="true"></button>
       <button class="lang-toggle" type="button" data-lang-toggle>EN</button>
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu" data-i18n="menu">
+        <span class="menu-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="sr-only">Menu</span>
+      </button>
       <a class="cta" href="reservation.html" data-i18n="cta_book">Reserver</a>
     </nav>
     <div class="hero-content reveal">
@@ -66,6 +70,51 @@
           <li><span>Aucune partie pour le moment</span><strong>-</strong></li>
         </ul>
       </article>
+    </section>
+
+    <section class="section reveal">
+      <h2>Paliers a atteindre</h2>
+      <p class="small">
+        Vos points cumules debloquent des avantages progressifs. Les remises et attentions evoluent selon votre palier actuel.
+      </p>
+      <div class="loyalty-table-wrap">
+        <table class="loyalty-table">
+          <thead>
+            <tr>
+              <th>Palier</th>
+              <th>Nombre de points</th>
+              <th>Avantages</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Bronze</strong></td>
+              <td>De 1 a 299 points</td>
+              <td>Conseils bien-etre, 1 offre decouverte par mois, 1 remise de 10 % par mois.</td>
+            </tr>
+            <tr>
+              <td><strong>Argent</strong></td>
+              <td>De 300 a 599 points</td>
+              <td>Conseils personnalises, 1 offre decouverte par mois, 2 remises de 15 % par mois.</td>
+            </tr>
+            <tr>
+              <td><strong>Or</strong></td>
+              <td>De 600 a 999 points</td>
+              <td>Conseils personnalises, 4 offres decouverte par mois, 2 remises de 20 % par mois, cadeau d'anniversaire.</td>
+            </tr>
+            <tr>
+              <td><strong>Platinium</strong></td>
+              <td>De 1000 a 1499 points</td>
+              <td>Conseils personnalises, 4 offres decouverte par mois, 1 remise de 20 % par mois, cadeau d'anniversaire, acces prioritaire a certains evenements.</td>
+            </tr>
+            <tr>
+              <td><strong>Premium</strong></td>
+              <td>1500 points et plus</td>
+              <td>Conseils VIP, 1 remise de 30 % par mois, cadeau d'anniversaire, offres prestige, acces privilegie aux soirees et experiences privees.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
   </main>
 

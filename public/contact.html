@@ -18,7 +18,6 @@
   <header class="hero small-hero">
     <nav class="nav">
       <div class="brand">LE TEMPLE</div>
-      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu" data-i18n="menu">Menu</button>
       <div class="menu" id="site-menu">
         <a href="index.html" data-i18n="nav_home">Accueil</a>
         <a href="concept.html" data-i18n="nav_concept">Concept</a>
@@ -29,7 +28,12 @@
         <a href="contact.html" aria-current="page" data-i18n="nav_contact">Contact</a>
         <a href="connexion.html" data-i18n="nav_login">Connexion</a>
       </div>
+      <button class="menu-backdrop" type="button" tabindex="-1" aria-hidden="true"></button>
       <button class="lang-toggle" type="button" data-lang-toggle>EN</button>
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu" data-i18n="menu">
+        <span class="menu-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="sr-only">Menu</span>
+      </button>
       <a class="cta" href="reservation.html" data-i18n="cta_book">Reserver</a>
     </nav>
     <div class="hero-content reveal">

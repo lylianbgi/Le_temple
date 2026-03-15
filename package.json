@@ -5,5 +5,8 @@
   "description": "Site vitrine et reservation pour Le Temple spa",
   "scripts": {
     "start": "node server/server.js"
+  },
+  "dependencies": {
+    "nodemailer": "^8.0.2"
   }
 }

@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "id": "037fbd35-9427-483a-932b-2756fc98ba39",
+    "nom": "Test Verif",
+    "email": "test.verif.1773221130@example.com",
+    "passwordHash": "fc9a5f059e37a52e31e5e0309b47ff84:54ca0217b26909eec36430fa10b56708b01f19774c928c115b291963f92fbdfc95056e42248e73b776ba25f33968e5e341c49c7621bf4339885df4891dc48b09",
+    "createdAt": "2026-03-11T09:25:30.295Z"
+  },
+  {
+    "id": "9063b665-06f1-4249-aa4b-847b4180239b",
+    "nom": "Inspect Verif",
+    "email": "inspect.verif.1773221159@example.com",
+    "passwordHash": "107e3e1e6422fc96453429b4ac26c1ba:d90bf6e9765a0e5b89e2c3bc0861f7528401623d2dceac650e35c55e0f34e8cdc38e615e7c307cb409dabbe534149d5fa80c4eb08d65daff0671ca1794c0c7da",
+    "createdAt": "2026-03-11T09:25:59.338Z"
+  },
+  {
+    "id": "fa1d0a69-ffe7-48d4-9600-4a9ba9188ed6",
+    "nom": "Test Verif",
+    "email": "test.verif.1773221240@example.com",
+    "passwordHash": "0ca667c8147252c8831a53e7fe25614c:e7de89a9ca24e524990a2453a8cf94f04a0f8fdd255f60af73fe11feb3bbaa1ecfaec0d0a1806bc1972257dae16caca5161f008c682349dafca5f9e08881a39a",
+    "emailVerified": true,
+    "emailVerifiedAt": "2026-03-11T09:27:20.643Z",
+    "createdAt": "2026-03-11T09:27:20.391Z"
+  },
+  {
+    "id": "2c6c4804-8ffd-439c-9049-3e0b6ff90251",
+    "nom": "Michel",
+    "email": "lylianmichel@gmail.com",
+    "passwordHash": "a7554eeb6c96a3099de42edadee232d0:c4d016d63e21b8aa8a92bdba1d449e1928ab0358d933e449017970a905bf05f17a27d73a61b1b3489fb7cc74cc30313448195f52569bfb6826da7db931be44f9",
+    "emailVerified": false,
+    "emailVerifiedAt": null,
+    "createdAt": "2026-03-11T09:45:58.040Z"
+  }
+]

@@ -1,6 +1,7 @@
 const revealElements = document.querySelectorAll(".reveal");
 const menuToggle = document.querySelector(".menu-toggle");
 const menu = document.querySelector(".menu");
+const menuBackdrop = document.querySelector(".menu-backdrop");
 const langButtons = document.querySelectorAll("[data-lang-toggle]");
 document.documentElement.classList.add("js");
 
@@ -171,10 +172,39 @@ if (revealElements.length > 0) {
 }
 
 if (menuToggle && menu) {
-  menuToggle.setAttribute("aria-expanded", "false");
-  menuToggle.addEventListener("click", () => {
-    const isOpen = menu.classList.toggle("open");
+  const setMenuState = (isOpen) => {
+    menu.classList.toggle("open", isOpen);
+    if (menuBackdrop) menuBackdrop.classList.toggle("open", isOpen);
     menuToggle.setAttribute("aria-expanded", String(isOpen));
+    document.body.classList.toggle("menu-open", isOpen);
+  };
+
+  setMenuState(false);
+
+  menuToggle.addEventListener("click", () => {
+    const isOpen = !menu.classList.contains("open");
+    setMenuState(isOpen);
+  });
+
+  if (menuBackdrop) {
+    menuBackdrop.addEventListener("click", () => setMenuState(false));
+  }
+
+  menu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setMenuState(false));
+  });
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menu.classList.contains("open")) {
+      setMenuState(false);
+      menuToggle.focus();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 900) {
+      setMenuState(false);
+    }
   });
 }
 
