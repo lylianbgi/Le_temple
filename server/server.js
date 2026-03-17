@@ -236,6 +236,11 @@ function buildSiteUrl(req, pathname) {
   return `${getBaseUrl(req)}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
 }
 
+function parseCheckboxValue(value) {
+  const normalized = String(value || "").trim().toLowerCase();
+  return normalized === "true" || normalized === "1" || normalized === "on" || normalized === "yes";
+}
+
 async function sendReservationConfirmationEmail(reservation, req) {
   const reservationUrl = buildSiteUrl(req, "/reservation.html");
   const subject = "Confirmation de votre reservation Le Temple";
@@ -427,7 +432,41 @@ async function handleEmployeeApi(req, res) {
     });
   }
 
-  if (req.method === "POST" && req.url.startsWith("/api/employee/stocks")) {
+  if (req.method === "POST" && req.url === "/api/employee/stocks/add") {
+    const body = await parseBody(req);
+    const name = String(body.name || "").trim();
+    const unit = String(body.unit || "").trim();
+    const qty = Number(body.qty);
+    if (!name || !unit || !Number.isFinite(qty) || qty < 0) {
+      return sendJson(res, 400, { ok: false, error: "Nom, unite et quantite valides requis." });
+    }
+    const stock = {
+      id: crypto.randomUUID(),
+      name,
+      qty,
+      unit
+    };
+    const stocks = store.addStock(stock);
+    await writeNotification("stock_add", stock);
+    return sendJson(res, 201, { ok: true, stocks, item: stock });
+  }
+
+  if (req.method === "POST" && req.url === "/api/employee/stocks/delete") {
+    const body = await parseBody(req);
+    const id = String(body.id || "").trim();
+    if (!id) {
+      return sendJson(res, 400, { ok: false, error: "Identifiant de stock requis." });
+    }
+    try {
+      const stocks = store.deleteStock(id);
+      await writeNotification("stock_delete", { id });
+      return sendJson(res, 200, { ok: true, stocks });
+    } catch (error) {
+      return sendJson(res, 404, { ok: false, error: error.message });
+    }
+  }
+
+  if (req.method === "POST" && req.url === "/api/employee/stocks") {
     const body = await parseBody(req);
     const id = String(body.id || "").trim();
     const qty = Number(body.qty);
@@ -497,6 +536,12 @@ async function handleApi(req, res) {
     if (missing.length > 0) {
       return sendJson(res, 400, { ok: false, error: `Champs manquants: ${missing.join(", ")}` });
     }
+    if (!parseCheckboxValue(body.privacyAccepted)) {
+      return sendJson(res, 400, {
+        ok: false,
+        error: "Vous devez accepter la Politique de protection des donnees pour envoyer votre demande."
+      });
+    }
 
     const cabine = normalizeCabin(body.cabine);
     if (!cabine) return sendJson(res, 400, { ok: false, error: "Cabine invalide." });
@@ -520,6 +565,8 @@ async function handleApi(req, res) {
       heure: String(body.heure || "").trim(),
       format: String(body.format || "").trim(),
       message: String(body.message || "").trim(),
+      privacyAccepted: true,
+      marketingOptIn: parseCheckboxValue(body.marketingOptIn),
       createdAt: new Date().toISOString()
     });
 
@@ -541,6 +588,12 @@ async function handleApi(req, res) {
     if (missing.length > 0) {
       return sendJson(res, 400, { ok: false, error: `Champs manquants: ${missing.join(", ")}` });
     }
+    if (!parseCheckboxValue(body.privacyAccepted)) {
+      return sendJson(res, 400, {
+        ok: false,
+        error: "Vous devez accepter la Politique de protection des donnees pour envoyer votre message."
+      });
+    }
 
     const contact = store.createContact({
       id: crypto.randomUUID(),
@@ -548,6 +601,8 @@ async function handleApi(req, res) {
       email: String(body.email || "").trim().toLowerCase(),
       sujet: String(body.sujet || "").trim(),
       message: String(body.message || "").trim(),
+      privacyAccepted: true,
+      marketingOptIn: parseCheckboxValue(body.marketingOptIn),
       createdAt: new Date().toISOString()
     });
     await writeNotification("contact", contact);
@@ -562,6 +617,12 @@ async function handleApi(req, res) {
     if (!nom || !email || password.length < 8) {
       return sendJson(res, 400, { ok: false, error: "Nom, email et mot de passe (8+ caracteres) requis." });
     }
+    if (!parseCheckboxValue(body.privacyAccepted) || !parseCheckboxValue(body.termsAccepted)) {
+      return sendJson(res, 400, {
+        ok: false,
+        error: "Vous devez accepter les Conditions d'utilisation et la Politique de protection des donnees."
+      });
+    }
     if (store.findUserByEmail(email)) {
       return sendJson(res, 409, { ok: false, error: "Un compte existe deja pour cet email." });
     }
@@ -571,6 +632,9 @@ async function handleApi(req, res) {
       nom,
       email,
       passwordHash: await hashPassword(password),
+      privacyAccepted: true,
+      termsAccepted: true,
+      marketingOptIn: parseCheckboxValue(body.marketingOptIn),
       createdAt: new Date().toISOString()
     });
     await writeNotification("register", { email, nom });

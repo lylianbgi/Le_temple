@@ -23,10 +23,13 @@ EMPLOYEE_CODE=mon_code EMPLOYEE_COOKIE_SECURE=true EMPLOYEE_IDLE_MINUTES=5 npm s
 
 ## Structure
 
-- `public/` : pages, styles, scripts, SEO, favicon
+- `public/` : pages publiques du site
+- `public/assets/css/` : feuille de style globale
+- `public/assets/js/` : script front commun
+- `public/assets/icons/` : favicon et icones du site
 - `server/` : serveur Node (API + fichiers statiques)
-- `data/` : base locale JSON (reservations, contacts, users)
-- `Concept spa.pdf` et `grille tarifaire du concept.pdf` : sources
+- `data/` : base locale SQLite et fichiers de donnees
+- `docs/` : documents source du projet (PDF, briefs, supports)
 
 ## API
 
@@ -52,4 +55,3 @@ EMPLOYEE_CODE=mon_code EMPLOYEE_COOKIE_SECURE=true EMPLOYEE_IDLE_MINUTES=5 npm s
    - `EMPLOYEE_COOKIE_SECURE=true`
    - `LOG_LEVEL=info`
 5. Ouvrir l'URL Render fournie.
-"# Le_temple" 

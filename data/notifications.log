@@ -19,3 +19,11 @@
 [2026-03-15T16:36:41.444Z] login: {"email":"sqlite.user.1773592601@example.com","tokenPreview":"7a9200db"}
 [2026-03-15T16:37:02.937Z] register: {"email":"sqlite.verify.1773592622@example.com","nom":"SQLite Verify"}
 [2026-03-15T16:37:03.082Z] login: {"email":"sqlite.verify.1773592622@example.com","tokenPreview":"c6e7892c"}
+[2026-03-15T17:30:26.401Z] register: {"email":"rgpd.ok.1773595826@example.com","nom":"RGPD Test"}
+[2026-03-15T17:30:26.471Z] contact: {"id":"6703a9cf-7940-4e6e-a684-4ed71f231fc6","nom":"RGPD Contact","email":"rgpd.ok.1773595826@example.com","sujet":"Test","message":"Bonjour","privacyAccepted":true,"marketingOptIn":false,"createdAt":"2026-03-15T17:30:26.469Z"}
+[2026-03-15T17:30:59.391Z] register: {"email":"rgpd.ok.1773595859@example.com","nom":"RGPD Test"}
+[2026-03-15T17:30:59.453Z] contact: {"id":"9f178be2-ff67-4c0c-bdf0-dfb03e848931","nom":"RGPD Contact","email":"rgpd.ok.1773595859@example.com","sujet":"Test","message":"Bonjour","privacyAccepted":true,"marketingOptIn":false,"createdAt":"2026-03-15T17:30:59.451Z"}
+[2026-03-15T17:31:18.847Z] reservation: {"id":"4ec329dd-b666-42c2-994b-ebaed9ccedb4","nom":"RGPD Resa","email":"rgpd.resa.1773595878@example.com","telephone":"0102030405","soin":"Californien","cabine":"Europe","date":"2026-03-22","heure":"10:00","format":"Solo","message":"","privacyAccepted":true,"marketingOptIn":false,"createdAt":"2026-03-15T17:31:18.845Z"}
+[2026-03-15T17:31:19.595Z] mail_error: {"scope":"reservation_confirmation","email":"rgpd.resa.1773595878@example.com","error":"Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to\n535 5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-439fe1abf84sm31992636f8f.14 - gsmtp"}
+[2026-03-15T20:48:32.326Z] stock_add: {"id":"be7e0c21-b717-46db-b8c5-4acabd2560c0","name":"Test Codex","qty":3,"unit":"pieces"}
+[2026-03-15T20:48:32.415Z] stock_delete: {"id":"be7e0c21-b717-46db-b8c5-4acabd2560c0"}

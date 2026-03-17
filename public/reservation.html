@@ -4,55 +4,73 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Reservation | Le Temple</title>
-  <meta name="description" content="Reservation de soins au Temple: massage, rituel, soin visage en solo ou duo.">
+  <meta name="description" content="Reservation de soins au Temple: massages, rituels, soins visage, spa privatif et accompagnement premiere visite.">
   <meta name="theme-color" content="#2b6a4a">
   <link rel="canonical" href="https://letemple-spa.fr/reservation.html">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Urbanist:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
   <header class="hero small-hero">
     <nav class="nav">
-      <div class="brand">LE TEMPLE</div>
+      <a class="brand brand-link" href="index.html" aria-label="Le Temple, retour a l'accueil">
+        <img class="brand-logo" src="assets/icons/logo-temple.svg" alt="" aria-hidden="true">
+        <span class="brand-text">LE TEMPLE</span>
+      </a>
       <div class="menu" id="site-menu">
-        <a href="index.html" data-i18n="nav_home">Accueil</a>
-        <a href="concept.html" data-i18n="nav_concept">Concept</a>
-        <a href="cabines.html" data-i18n="nav_cabins">Cabines</a>
-        <a href="soins.html" data-i18n="nav_care">Soins</a>
-        <a href="jeu.html" data-i18n="nav_game">Jeu</a>
-        <a href="reservation.html" aria-current="page" data-i18n="nav_booking">Reservation</a>
-        <a href="contact.html" data-i18n="nav_contact">Contact</a>
-        <a href="connexion.html" data-i18n="nav_login">Connexion</a>
+        <a href="index.html">Accueil</a>
+        <a href="concept.html">Concept</a>
+        <a href="soins.html">Experiences</a>
+        <a href="contact.html">Contact</a>
+        <a href="connexion.html">Connexion</a>
       </div>
       <button class="menu-backdrop" type="button" tabindex="-1" aria-hidden="true"></button>
-      <button class="lang-toggle" type="button" data-lang-toggle>EN</button>
-      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu" data-i18n="menu">
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu">
         <span class="menu-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
         <span class="sr-only">Menu</span>
       </button>
-      <a class="cta" href="soins.html" data-i18n="cta_view_care">Voir les soins</a>
+      <a class="cta cta-book" href="reservation.html" aria-current="page">Reserver</a>
     </nav>
     <div class="hero-content reveal">
       <p class="eyebrow">Prise de rendez-vous</p>
-      <h1>Reservation</h1>
+      <h1>Reservation accompagnee et lisible, meme pour une premiere visite.</h1>
+      <p class="lead">
+        Choisissez un soin, laissez le site vous suggerer la cabine la plus adaptee, puis completez votre venue.
+        Nous avons ajoute les reperes qui manquent le plus souvent avant une reservation: format, deroule de la seance,
+        conditions essentielles et disponibilites par cabine.
+      </p>
     </div>
   </header>
 
   <main>
     <section class="section reveal">
-      <h2>Avant votre venue</h2>
-      <div class="media-grid">
-        <article class="media">
-          <img src="https://images.pexels.com/photos/9336049/pexels-photo-9336049.jpeg?cs=srgb&dl=pexels-willpicturethis-9336049.jpg&fm=jpg" alt="Huiles et accessoires de soin" loading="lazy">
-          <p>Precisez vos preferences pour personnaliser votre soin.</p>
+      <div class="section-intro">
+        <p class="eyebrow eyebrow-soft">Premiere visite</p>
+        <h2>Ce qu'il faut savoir avant de reserver.</h2>
+      </div>
+      <div class="split">
+        <article class="panel">
+          <h3>Comment se passe une seance</h3>
+          <div class="journey">
+            <article class="step"><strong>1.</strong><span>Arrivez 10 minutes avant l'heure pour vous poser, respirer et confirmer vos attentes du jour.</span></article>
+            <article class="step"><strong>2.</strong><span>Nous ajustons avec vous la pression, les zones a privilegier et, si besoin, la cabine la plus coherente avec le soin choisi.</span></article>
+            <article class="step"><strong>3.</strong><span>Le linge et la tenue de confort sont prevus sur place. Vous n'avez rien a apporter hors preferences personnelles.</span></article>
+            <article class="step"><strong>4.</strong><span>Un temps de sortie de seance est preserve pour repartir plus doucement et prolonger les effets du soin.</span></article>
+          </div>
         </article>
-        <article class="media">
-          <img src="https://images.pexels.com/photos/35546242/pexels-photo-35546242.jpeg?cs=srgb&dl=pexels-vika-glitter-392079-35546242.jpg&fm=jpg" alt="Ambiance relaxante de spa" loading="lazy">
-          <p>Notre equipe vous confirme le meilleur parcours selon vos besoins.</p>
+        <article class="panel">
+          <h3>Repere rapide</h3>
+          <ul class="mini-list">
+            <li><span>Arrivee conseillee</span><strong>10 min avant</strong></li>
+            <li><span>Format solo</span><strong>1 personne</strong></li>
+            <li><span>Format duo</span><strong>2 personnes</strong></li>
+            <li><span>Spa privatif duo</span><strong>tarif pour 2 personnes</strong></li>
+            <li><span>Horaires d'ouverture</span><strong>10h00 - 22h00</strong></li>
+          </ul>
         </article>
       </div>
     </section>
@@ -102,6 +120,7 @@
             <option>Mauresque</option>
           </select>
         </label>
+        <p class="small-note" data-cabin-hint>La cabine peut se remplir automatiquement selon le soin choisi.</p>
         <label>Date souhaitee
           <input type="date" name="date" required>
         </label>
@@ -117,25 +136,88 @@
             <option>Duo</option>
           </select>
         </label>
+        <p class="small-note">
+          Solo = 1 personne. Duo = 2 personnes. Pour le spa privatif, les prix duo affiches correspondent au format 2 personnes.
+        </p>
         <label>Message
-          <textarea name="message" rows="4" placeholder="Vos preferences ou contraintes"></textarea>
+          <textarea name="message" rows="4" placeholder="Preferences de pression, occasion speciale, contraintes ou attentes particuliere"></textarea>
+        </label>
+        <label class="consent-check">
+          <input type="checkbox" name="privacyAccepted" required>
+          <span>
+            J'ai lu la <a href="protection-donnees.html" target="_blank" rel="noopener noreferrer">Politique de protection des donnees</a>
+            et j'accepte que mes informations soient utilisees pour traiter ma demande de reservation.
+          </span>
+        </label>
+        <label class="consent-check">
+          <input type="checkbox" name="marketingOptIn">
+          <span>
+            J'accepte de recevoir occasionnellement les actualites, offres et inspirations bien-etre du Temple.
+          </span>
         </label>
         <button type="submit" class="cta">Envoyer la demande</button>
         <p class="form-status" data-form-status aria-live="polite"></p>
       </form>
       <div class="availability" data-availability></div>
-      <p class="small-note">Les creneaux se chargent selon la cabine et la date choisies (10h-22h).</p>
+      <p class="small-note">Les creneaux se chargent selon la cabine et la date choisies, de 10h00 a 22h00.</p>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-intro">
+        <p class="eyebrow eyebrow-soft">Conditions utiles</p>
+        <h2>Les informations que l'on cherche juste avant de valider.</h2>
+      </div>
+      <div class="facts-grid">
+        <article class="fact-card">
+          <h3>Annulation</h3>
+          <p>Sans frais jusqu'a 24 h avant le rendez-vous. Passe ce delai, la seance peut etre due ou reportee selon disponibilite.</p>
+        </article>
+        <article class="fact-card">
+          <h3>Retard</h3>
+          <p>En cas de retard, le temps de soin peut etre ajuste pour respecter les rendez-vous suivants et conserver le confort de tous.</p>
+        </article>
+        <article class="fact-card">
+          <h3>Paiement</h3>
+          <p>CB, especes et cartes cadeaux sont acceptes sur place. Les details de paiement peuvent etre confirmes lors de la prise de rendez-vous.</p>
+        </article>
+        <article class="fact-card">
+          <h3>Age minimum</h3>
+          <p>Les soins sont proposes a partir de 16 ans avec accompagnement d'un adulte. Certaines experiences peuvent exiger 18 ans.</p>
+        </article>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>Le Temple - 2026</p>
+    <div class="footer-shell">
+      <div>
+        <p class="footer-brand">Le Temple</p>
+        <p class="footer-copy">
+          Spa holistique et sensoriel a Paris. Massages du monde, rituels signature, soins visage et spa privatif
+          pour ralentir, recuperer et se recentrer.
+        </p>
+      </div>
+      <div class="footer-meta">
+        <p>12 Avenue du Voyage Sensoriel, 75000 Paris</p>
+        <p>Lundi - Dimanche, 10h00 - 22h00</p>
+        <p>Metro ligne 4, parking a 3 minutes, paiements CB, especes et cartes cadeaux.</p>
+      </div>
+      <div>
+        <div class="footer-links">
+          <a href="soins.html">Experiences</a>
+          <a href="reservation.html">Reservation</a>
+          <a href="contact.html">Contact</a>
+          <a href="cabines.html">Cabines detaillees</a>
+        </div>
+        <div class="footer-legal">
+          <a href="conditions-utilisation.html">Conditions d'utilisation</a>
+          <a href="protection-donnees.html">Protection des donnees</a>
+        </div>
+      </div>
+    </div>
     <a class="employee-link" href="employes.html">Acces employe</a>
   </footer>
-  <script src="script.js"></script>
+
+  <script src="assets/js/script.js"></script>
 </body>
 </html>
-
-
-
-

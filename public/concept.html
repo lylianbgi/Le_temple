@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -7,34 +7,33 @@
   <meta name="description" content="Vision et intention du concept Le Temple: spa holistique et sensoriel, parcours client, univers cabine et fidelite.">
   <meta name="theme-color" content="#2b6a4a">
   <link rel="canonical" href="https://letemple-spa.fr/concept.html">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Urbanist:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
   <header class="hero small-hero">
     <nav class="nav">
-      <div class="brand">LE TEMPLE</div>
+      <a class="brand brand-link" href="index.html" aria-label="Le Temple, retour a l'accueil">
+        <img class="brand-logo" src="assets/icons/logo-temple.svg" alt="" aria-hidden="true">
+        <span class="brand-text">LE TEMPLE</span>
+      </a>
       <div class="menu" id="site-menu">
-        <a href="index.html" data-i18n="nav_home">Accueil</a>
-        <a href="concept.html" aria-current="page" data-i18n="nav_concept">Concept</a>
-        <a href="cabines.html" data-i18n="nav_cabins">Cabines</a>
-        <a href="soins.html" data-i18n="nav_care">Soins</a>
-        <a href="jeu.html" data-i18n="nav_game">Jeu</a>
-        <a href="reservation.html" data-i18n="nav_booking">Reservation</a>
-        <a href="contact.html" data-i18n="nav_contact">Contact</a>
-        <a href="connexion.html" data-i18n="nav_login">Connexion</a>
+        <a href="index.html">Accueil</a>
+        <a href="concept.html" aria-current="page">Concept</a>
+        <a href="soins.html">Experiences</a>
+        <a href="contact.html">Contact</a>
+        <a href="connexion.html">Connexion</a>
       </div>
       <button class="menu-backdrop" type="button" tabindex="-1" aria-hidden="true"></button>
-      <button class="lang-toggle" type="button" data-lang-toggle>EN</button>
-      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu" data-i18n="menu">
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu">
         <span class="menu-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
         <span class="sr-only">Menu</span>
       </button>
-      <a class="cta" href="reservation.html" data-i18n="cta_book">Reserver</a>
+      <a class="cta cta-book" href="reservation.html">Reserver</a>
     </nav>
     <div class="hero-content reveal">
       <p class="eyebrow">Concept de marque</p>
@@ -123,12 +122,38 @@
   </main>
 
   <footer class="footer">
-    <p>Le Temple - 2026</p>
+    <div class="footer-shell">
+      <div>
+        <p class="footer-brand">Le Temple</p>
+        <p class="footer-copy">
+          Spa holistique et sensoriel a Paris. Massages du monde, rituels signature, soins visage et spa privatif
+          pour ralentir, recuperer et se recentrer.
+        </p>
+      </div>
+      <div class="footer-meta">
+        <p>12 Avenue du Voyage Sensoriel, 75000 Paris</p>
+        <p>Lundi - Dimanche, 10h00 - 22h00</p>
+        <p>Metro ligne 4, parking a 3 minutes, paiements CB, especes et cartes cadeaux.</p>
+      </div>
+      <div>
+        <div class="footer-links">
+          <a href="soins.html">Experiences</a>
+          <a href="reservation.html">Reservation</a>
+          <a href="contact.html">Contact</a>
+          <a href="cabines.html">Cabines detaillees</a>
+        </div>
+        <div class="footer-legal">
+          <a href="conditions-utilisation.html">Conditions d'utilisation</a>
+          <a href="protection-donnees.html">Protection des donnees</a>
+        </div>
+      </div>
+    </div>
     <a class="employee-link" href="employes.html">Acces employe</a>
   </footer>
-  <script src="script.js"></script>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>
+
 
 
 

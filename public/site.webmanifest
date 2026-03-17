@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Le Temple",
   "short_name": "Le Temple",
   "start_url": "/index.html",
@@ -7,9 +7,10 @@
   "theme_color": "#2b6a4a",
   "icons": [
     {
-      "src": "assets/favicon.svg",
+      "src": "assets/icons/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }
   ]
 }
+

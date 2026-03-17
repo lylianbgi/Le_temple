@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Logo Le Temple">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#a1aa97"/>
+      <stop offset="100%" stop-color="#929b89"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g fill="none" stroke="#f2ead7" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="256" cy="256" r="112" stroke-width="8"/>
+    <path d="M215 220h82" stroke-width="8"/>
+    <path d="M206 265h100" stroke-width="8"/>
+    <path d="M220 220v45" stroke-width="8"/>
+    <path d="M256 220v45" stroke-width="8"/>
+    <path d="M292 220v45" stroke-width="8"/>
+    <path d="M210 192h92l-46-32-46 32Z" stroke-width="8"/>
+    <path d="M208 278h96" stroke-width="8"/>
+  </g>
+</svg>

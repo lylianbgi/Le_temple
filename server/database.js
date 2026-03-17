@@ -33,6 +33,9 @@ function ensureDatabase(dataDir) {
       nom TEXT NOT NULL,
       email TEXT NOT NULL UNIQUE,
       password_hash TEXT NOT NULL,
+      privacy_accepted INTEGER NOT NULL DEFAULT 0,
+      terms_accepted INTEGER NOT NULL DEFAULT 0,
+      marketing_opt_in INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL
     );
 
@@ -47,6 +50,8 @@ function ensureDatabase(dataDir) {
       heure TEXT NOT NULL,
       format TEXT NOT NULL,
       message TEXT DEFAULT '',
+      privacy_accepted INTEGER NOT NULL DEFAULT 0,
+      marketing_opt_in INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL
     );
 
@@ -56,6 +61,8 @@ function ensureDatabase(dataDir) {
       email TEXT NOT NULL,
       sujet TEXT NOT NULL,
       message TEXT NOT NULL,
+      privacy_accepted INTEGER NOT NULL DEFAULT 0,
+      marketing_opt_in INTEGER NOT NULL DEFAULT 0,
       created_at TEXT NOT NULL
     );
 
@@ -93,8 +100,24 @@ function ensureDatabase(dataDir) {
     CREATE INDEX IF NOT EXISTS idx_game_history_email_created_at ON game_history(email, created_at DESC);
   `);
 
+  ensureColumn(db, "users", "privacy_accepted", "INTEGER NOT NULL DEFAULT 0");
+  ensureColumn(db, "users", "terms_accepted", "INTEGER NOT NULL DEFAULT 0");
+  ensureColumn(db, "users", "marketing_opt_in", "INTEGER NOT NULL DEFAULT 0");
+  ensureColumn(db, "reservations", "privacy_accepted", "INTEGER NOT NULL DEFAULT 0");
+  ensureColumn(db, "reservations", "marketing_opt_in", "INTEGER NOT NULL DEFAULT 0");
+  ensureColumn(db, "contacts", "privacy_accepted", "INTEGER NOT NULL DEFAULT 0");
+  ensureColumn(db, "contacts", "marketing_opt_in", "INTEGER NOT NULL DEFAULT 0");
+
   migrateJsonData(db, dataDir);
   return db;
+}
+
+function ensureColumn(db, tableName, columnName, definition) {
+  const columns = db.prepare(`PRAGMA table_info(${tableName})`).all();
+  const exists = columns.some((column) => column.name === columnName);
+  if (!exists) {
+    db.exec(`ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${definition}`);
+  }
 }
 
 function getMeta(db, key) {
@@ -113,16 +136,16 @@ function migrateJsonData(db, dataDir) {
   if (getMeta(db, "json_migration_done") === "1") return;
 
   const insertUser = db.prepare(`
-    INSERT OR IGNORE INTO users(id, nom, email, password_hash, created_at)
-    VALUES(?, ?, ?, ?, ?)
+    INSERT OR IGNORE INTO users(id, nom, email, password_hash, privacy_accepted, terms_accepted, marketing_opt_in, created_at)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?)
   `);
   const insertReservation = db.prepare(`
-    INSERT OR IGNORE INTO reservations(id, nom, email, telephone, soin, cabine, date, heure, format, message, created_at)
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT OR IGNORE INTO reservations(id, nom, email, telephone, soin, cabine, date, heure, format, message, privacy_accepted, marketing_opt_in, created_at)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
   const insertContact = db.prepare(`
-    INSERT OR IGNORE INTO contacts(id, nom, email, sujet, message, created_at)
-    VALUES(?, ?, ?, ?, ?, ?)
+    INSERT OR IGNORE INTO contacts(id, nom, email, sujet, message, privacy_accepted, marketing_opt_in, created_at)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?)
   `);
   const insertStock = db.prepare(`
     INSERT OR REPLACE INTO stocks(id, name, qty, unit)
@@ -150,6 +173,9 @@ function migrateJsonData(db, dataDir) {
         user.nom || "",
         String(user.email || "").toLowerCase(),
         user.passwordHash || "",
+        Number(Boolean(user.privacyAccepted)),
+        Number(Boolean(user.termsAccepted)),
+        Number(Boolean(user.marketingOptIn)),
         user.createdAt || new Date().toISOString()
       );
     });
@@ -167,6 +193,8 @@ function migrateJsonData(db, dataDir) {
         row.heure || "",
         row.format || "",
         row.message || "",
+        Number(Boolean(row.privacyAccepted)),
+        Number(Boolean(row.marketingOptIn)),
         row.createdAt || new Date().toISOString()
       );
     });
@@ -179,6 +207,8 @@ function migrateJsonData(db, dataDir) {
         String(row.email || "").toLowerCase(),
         row.sujet || "",
         row.message || "",
+        Number(Boolean(row.privacyAccepted)),
+        Number(Boolean(row.marketingOptIn)),
         row.createdAt || new Date().toISOString()
       );
     });
@@ -227,6 +257,8 @@ function mapReservationRow(row) {
     heure: row.heure,
     format: row.format,
     message: row.message || "",
+    privacyAccepted: Boolean(row.privacy_accepted),
+    marketingOptIn: Boolean(row.marketing_opt_in),
     createdAt: row.created_at
   };
 }
@@ -238,6 +270,8 @@ function mapContactRow(row) {
     email: row.email,
     sujet: row.sujet,
     message: row.message,
+    privacyAccepted: Boolean(row.privacy_accepted),
+    marketingOptIn: Boolean(row.marketing_opt_in),
     createdAt: row.created_at
   };
 }
@@ -248,6 +282,9 @@ function mapUserRow(row) {
     nom: row.nom,
     email: row.email,
     passwordHash: row.password_hash,
+    privacyAccepted: Boolean(row.privacy_accepted),
+    termsAccepted: Boolean(row.terms_accepted),
+    marketingOptIn: Boolean(row.marketing_opt_in),
     createdAt: row.created_at
   } : null;
 }
@@ -299,16 +336,25 @@ function createStore(dataDir) {
 
     createUser(user) {
       db.prepare(`
-        INSERT INTO users(id, nom, email, password_hash, created_at)
-        VALUES(?, ?, ?, ?, ?)
-      `).run(user.id, user.nom, String(user.email || "").toLowerCase(), user.passwordHash, user.createdAt);
+        INSERT INTO users(id, nom, email, password_hash, privacy_accepted, terms_accepted, marketing_opt_in, created_at)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        user.id,
+        user.nom,
+        String(user.email || "").toLowerCase(),
+        user.passwordHash,
+        Number(Boolean(user.privacyAccepted)),
+        Number(Boolean(user.termsAccepted)),
+        Number(Boolean(user.marketingOptIn)),
+        user.createdAt
+      );
       return this.findUserByEmail(user.email);
     },
 
     createReservation(row) {
       db.prepare(`
-        INSERT INTO reservations(id, nom, email, telephone, soin, cabine, date, heure, format, message, created_at)
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO reservations(id, nom, email, telephone, soin, cabine, date, heure, format, message, privacy_accepted, marketing_opt_in, created_at)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `).run(
         row.id,
         row.nom,
@@ -320,6 +366,8 @@ function createStore(dataDir) {
         row.heure,
         row.format,
         row.message || "",
+        Number(Boolean(row.privacyAccepted)),
+        Number(Boolean(row.marketingOptIn)),
         row.createdAt
       );
       return row;
@@ -327,14 +375,39 @@ function createStore(dataDir) {
 
     createContact(row) {
       db.prepare(`
-        INSERT INTO contacts(id, nom, email, sujet, message, created_at)
-        VALUES(?, ?, ?, ?, ?, ?)
-      `).run(row.id, row.nom, String(row.email || "").toLowerCase(), row.sujet, row.message, row.createdAt);
+        INSERT INTO contacts(id, nom, email, sujet, message, privacy_accepted, marketing_opt_in, created_at)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+      `).run(
+        row.id,
+        row.nom,
+        String(row.email || "").toLowerCase(),
+        row.sujet,
+        row.message,
+        Number(Boolean(row.privacyAccepted)),
+        Number(Boolean(row.marketingOptIn)),
+        row.createdAt
+      );
       return row;
     },
 
     updateStock(id, qty) {
       const result = db.prepare("UPDATE stocks SET qty = ? WHERE id = ?").run(Math.floor(qty), id);
+      if (result.changes === 0) {
+        throw new Error("Stock introuvable");
+      }
+      return this.listStocks();
+    },
+
+    addStock(stockRow) {
+      db.prepare(`
+        INSERT INTO stocks(id, name, qty, unit)
+        VALUES(?, ?, ?, ?)
+      `).run(stockRow.id, stockRow.name, Math.floor(stockRow.qty), stockRow.unit);
+      return this.listStocks();
+    },
+
+    deleteStock(id) {
+      const result = db.prepare("DELETE FROM stocks WHERE id = ?").run(id);
       if (result.changes === 0) {
         throw new Error("Stock introuvable");
       }

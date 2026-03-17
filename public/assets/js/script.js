@@ -122,6 +122,26 @@ const phrasePairs = [
 
 const frToEn = Object.fromEntries(phrasePairs);
 const enToFr = Object.fromEntries(phrasePairs.map(([fr, en]) => [en, fr]));
+const soinCabinMap = {
+  Shiatsu: "Japon",
+  "Soin visage anti-age (Kobido)": "Japon",
+  Californien: "Europe",
+  Suedois: "Europe",
+  "Massage a la bougie": "Europe",
+  "Soin visage hydratant": "Europe",
+  "Soin visage purifiant": "Europe",
+  "Thai a l'huile": "Thailande",
+  "Massage aux pochons": "Thailande",
+  Mauresque: "Mauresque",
+  "Rituel Oriental": "Mauresque",
+  Balinais: "Bali",
+  "Rituel Balinais": "Bali",
+  Abhyanga: "Bali",
+  "Rituel Ayurvedique": "Bali",
+  "Massage aux bambous": "Bali",
+  "Lomi Lomi": "Bali",
+  "Rituel Nordique": "Europe"
+};
 
 const i18n = {
   fr: {
@@ -230,6 +250,7 @@ function applyLanguage(lang) {
     // Ignore storage failures (private mode, blocked storage).
   }
   translateWholePage(lang);
+  updateReservationCabinHint();
 }
 
 function translateString(value, lang) {
@@ -317,6 +338,55 @@ function getStoredValue(key) {
   } catch {
     return null;
   }
+}
+
+function getRecommendedCabinForSoin(soin) {
+  return soinCabinMap[String(soin || "").trim()] || "";
+}
+
+function getReservationLanguage() {
+  return document.documentElement.lang === "en" ? "en" : "fr";
+}
+
+function getCabinHintText(cabin, lang = getReservationLanguage()) {
+  if (!cabin) {
+    return lang === "en"
+      ? "The cabin can be filled automatically based on the selected treatment."
+      : "La cabine peut se remplir automatiquement selon le soin choisi.";
+  }
+  const displayCabin = lang === "en" ? translateString(cabin, "en") : cabin;
+  return lang === "en"
+    ? `Suggested cabin: ${displayCabin}. You can change it if you wish.`
+    : `Cabine suggeree automatiquement : ${cabin}. Vous pouvez la modifier si vous le souhaitez.`;
+}
+
+function updateReservationCabinHint(recommendedCabin = null) {
+  const hint = document.querySelector("[data-cabin-hint]");
+  const soinSelect = document.querySelector(".api-form[data-endpoint='/api/reservations'] select[name='soin']");
+  if (!hint) return;
+  const cabin = recommendedCabin === null ? getRecommendedCabinForSoin(soinSelect ? soinSelect.value : "") : recommendedCabin;
+  hint.textContent = getCabinHintText(cabin);
+}
+
+function syncCabinWithSelectedSoin(force = false) {
+  const form = document.querySelector(".api-form[data-endpoint='/api/reservations']");
+  if (!form) return;
+  const soinSelect = form.querySelector("select[name='soin']");
+  const cabinSelect = form.querySelector("select[name='cabine']");
+  if (!soinSelect || !cabinSelect) return;
+
+  const recommendedCabin = getRecommendedCabinForSoin(soinSelect.value);
+  if (!recommendedCabin) {
+    updateReservationCabinHint("");
+    return;
+  }
+
+  const hasOption = Array.from(cabinSelect.options).some((opt) => opt.value === recommendedCabin || opt.text === recommendedCabin);
+  if (hasOption && (force || !cabinSelect.value)) {
+    cabinSelect.value = recommendedCabin;
+  }
+
+  updateReservationCabinHint(recommendedCabin);
 }
 
 async function postJson(endpoint, payload) {
@@ -490,6 +560,15 @@ function applyReservationPrefillFromQuery() {
 async function initReservationPage() {
   await loadCatalogOptions();
   applyReservationPrefillFromQuery();
+  const reservationForm = document.querySelector(".api-form[data-endpoint='/api/reservations']");
+  const soinSelect = reservationForm ? reservationForm.querySelector("select[name='soin']") : null;
+  if (soinSelect) {
+    soinSelect.addEventListener("change", () => {
+      syncCabinWithSelectedSoin(true);
+      refreshAvailability();
+    });
+  }
+  syncCabinWithSelectedSoin(false);
   initReservationDate();
 }
 
@@ -602,6 +681,10 @@ async function initEmployeeArea() {
   const demandesBody = document.querySelector("#demandesTable tbody");
   const stocksBody = document.querySelector("#stocksTable tbody");
   const stocksStatus = document.querySelector("#stocksStatus");
+  const stockAddForm = document.querySelector("#stockAddForm");
+  const stockNameInput = document.querySelector("#stockNameInput");
+  const stockQtyInput = document.querySelector("#stockQtyInput");
+  const stockUnitInput = document.querySelector("#stockUnitInput");
   const notesList = document.querySelector("#planningNotesList");
   const noteForm = document.querySelector("#planningNoteForm");
   const noteInput = document.querySelector("#planningNoteInput");
@@ -685,7 +768,7 @@ async function initEmployeeArea() {
     stocksBody.innerHTML = "";
     rows.forEach((s) => {
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${s.name}</td><td><input type="number" min="0" step="1" value="${s.qty}" data-stock-id="${s.id}" style="width:90px"></td><td>${s.unit}</td><td><button class="cta" type="button" data-stock-save="${s.id}">Save</button></td>`;
+      tr.innerHTML = `<td>${s.name}</td><td><input type="number" min="0" step="1" value="${s.qty}" data-stock-id="${s.id}" style="width:90px"></td><td>${s.unit}</td><td><div style="display:flex;gap:0.45rem;flex-wrap:wrap"><button class="cta" type="button" data-stock-save="${s.id}">Save</button><button class="cta danger" type="button" data-stock-delete="${s.id}">Suppr</button></div></td>`;
       stocksBody.appendChild(tr);
     });
     stocksBody.querySelectorAll("input[data-stock-id]").forEach((input) => {
@@ -709,6 +792,30 @@ async function initEmployeeArea() {
           renderStocks(data.stocks);
           if (stocksStatus) {
             stocksStatus.textContent = "Stock mis a jour.";
+            stocksStatus.classList.remove("error");
+          }
+        } catch (error) {
+          if (stocksStatus) {
+            stocksStatus.textContent = error.message;
+            stocksStatus.classList.add("error");
+          }
+        }
+      });
+    });
+    stocksBody.querySelectorAll("[data-stock-delete]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-stock-delete");
+        const confirmed = window.confirm("Supprimer ce produit du stock ?");
+        if (!confirmed) return;
+        try {
+          const data = await apiEmployee("/api/employee/stocks/delete", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id })
+          });
+          renderStocks(data.stocks);
+          if (stocksStatus) {
+            stocksStatus.textContent = "Produit supprime du stock.";
             stocksStatus.classList.remove("error");
           }
         } catch (error) {
@@ -781,6 +888,41 @@ async function initEmployeeArea() {
         if (noteInput) noteInput.value = "";
       } catch (error) {
         setEmployeeStatus(error.message, true);
+      }
+    });
+  }
+
+  if (stockAddForm) {
+    stockAddForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const name = stockNameInput ? stockNameInput.value.trim() : "";
+      const unit = stockUnitInput ? stockUnitInput.value.trim() : "";
+      const qty = Number(stockQtyInput ? stockQtyInput.value : 0);
+      if (!name || !unit || !Number.isFinite(qty) || qty < 0) {
+        if (stocksStatus) {
+          stocksStatus.textContent = "Nom, unite et quantite valides requis.";
+          stocksStatus.classList.add("error");
+        }
+        return;
+      }
+      try {
+        const data = await apiEmployee("/api/employee/stocks/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, unit, qty })
+        });
+        renderStocks(data.stocks);
+        if (stockAddForm) stockAddForm.reset();
+        if (stockQtyInput) stockQtyInput.value = "0";
+        if (stocksStatus) {
+          stocksStatus.textContent = "Produit ajoute au stock.";
+          stocksStatus.classList.remove("error");
+        }
+      } catch (error) {
+        if (stocksStatus) {
+          stocksStatus.textContent = error.message;
+          stocksStatus.classList.add("error");
+        }
       }
     });
   }

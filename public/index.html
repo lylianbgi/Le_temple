@@ -3,179 +3,404 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Le Temple | Spa holistique et sensoriel</title>
-  <meta name="description" content="Le Temple: spa holistique et sensoriel. Massages du monde, rituels et soins visage dans un univers immersif.">
+  <title>Le Temple | Spa immersif à Paris</title>
+  <meta name="description" content="Le Temple, spa holistique et sensoriel à Paris. Massages du monde, rituels signature, spa privatif et réservation en ligne.">
   <meta name="theme-color" content="#2b6a4a">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Le Temple | Spa holistique et sensoriel">
-  <meta property="og:description" content="Massages du monde, rituels signature, soins visage et reservation en ligne.">
+  <meta property="og:title" content="Le Temple | Spa immersif à Paris">
+  <meta property="og:description" content="Un spa pensé comme un parcours sensoriel : cabines immersives, massages du monde, rituels et spa privatif.">
   <meta property="og:image" content="https://images.pexels.com/photos/4170175/pexels-photo-4170175.jpeg">
   <meta property="og:locale" content="fr_FR">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Le Temple Spa">
-  <meta name="twitter:description" content="Un voyage sensoriel et holistique.">
+  <meta name="twitter:title" content="Le Temple | Spa immersif à Paris">
+  <meta name="twitter:description" content="Massages, rituels signature, spa privatif et réservation en ligne.">
   <link rel="canonical" href="https://letemple-spa.fr/index.html">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Urbanist:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
   <header class="hero">
     <nav class="nav">
-      <div class="brand">LE TEMPLE</div>
+      <a class="brand brand-link" href="index.html" aria-label="Le Temple, retour à l'accueil">
+        <img class="brand-logo" src="assets/icons/logo-temple.svg" alt="" aria-hidden="true">
+        <span class="brand-text">LE TEMPLE</span>
+      </a>
       <div class="menu" id="site-menu">
-        <a href="index.html" aria-current="page" data-i18n="nav_home">Accueil</a>
-        <a href="concept.html" data-i18n="nav_concept">Concept</a>
-        <a href="cabines.html" data-i18n="nav_cabins">Cabines</a>
-        <a href="soins.html" data-i18n="nav_care">Soins</a>
-        <a href="jeu.html" data-i18n="nav_game">Jeu</a>
-        <a href="reservation.html" data-i18n="nav_booking">Reservation</a>
-        <a href="contact.html" data-i18n="nav_contact">Contact</a>
-        <a href="connexion.html" data-i18n="nav_login">Connexion</a>
+        <a href="index.html" aria-current="page">Accueil</a>
+        <a href="concept.html">Concept</a>
+        <a href="soins.html">Expériences</a>
+        <a href="contact.html">Contact</a>
+        <a href="connexion.html">Connexion</a>
       </div>
       <button class="menu-backdrop" type="button" tabindex="-1" aria-hidden="true"></button>
-      <button class="lang-toggle" type="button" data-lang-toggle>EN</button>
-      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu" data-i18n="menu">
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-menu">
         <span class="menu-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
         <span class="sr-only">Menu</span>
       </button>
-      <a class="cta" href="reservation.html" data-i18n="cta_book">Reserver</a>
+      <a class="cta cta-book" href="reservation.html">Réserver</a>
     </nav>
     <div class="hero-content reveal">
       <p class="eyebrow">Spa holistique et sensoriel</p>
-      <h1>Un voyage des sens, cabine apres cabine.</h1>
+      <h1>Un voyage des sens, pensé pour ralentir vraiment.</h1>
       <p class="lead">
-        Inspire par des univers culturels immersifs: Japon, Bali, Europe, Thailande et Mauresque.
+        Au Temple, chaque rendez-vous associe lumière tamisée, senteurs enveloppantes et gestuelles expertes pour créer
+        une vraie coupure avec le rythme quotidien. Vous choisissez une énergie, nous composons la cabine, l'intensité
+        et le tempo qui lui correspondent. Solo, duo, rituel ou spa privatif, tout est conçu pour apaiser le corps et
+        laisser l'esprit respirer.
       </p>
+      <div class="hero-actions">
+        <a class="cta cta-book" href="reservation.html">Réserver</a>
+        <a class="cta cta-ghost" href="soins.html">Découvrir les expériences</a>
+      </div>
+      <div class="hero-highlights">
+        <span>Paris centre</span>
+        <span>5 univers immersifs</span>
+        <span>Solo, duo et spa privatif</span>
+      </div>
+      <a class="sticky-banner" href="#faq">Première visite ? Voir comment ça se passe</a>
     </div>
   </header>
 
   <main>
-    <section class="section reveal" id="concept">
-      <h2>Concept</h2>
-      <p>
-        Le Temple se positionne comme un spa d'immersion culturelle, avec une promesse de ressourcement
-        complet. Chaque experience combine ambiance, soin, geste expert et accompagnement sensoriel.
-      </p>
+    <section class="section reveal" id="pourquoi">
+      <div class="section-intro">
+        <p class="eyebrow eyebrow-soft">Pourquoi Le Temple</p>
+        <h2>Un spa qui raconte une expérience complète, pas un simple catalogue.</h2>
+      </div>
+      <div class="split">
+        <article class="panel">
+          <h3>Une parenthèse en ville</h3>
+          <p>
+            Le Temple a été imaginé comme un refuge urbain : lumière basse, bois chauds, linge épais, senteurs nettes
+            et sortie de séance en douceur pour ne pas revenir trop vite au bruit.
+          </p>
+        </article>
+        <article class="panel">
+          <h3>Une promesse claire</h3>
+          <p>
+            Vous arrivez avec une fatigue, une tension ou une envie de couper. Nous vous guidons vers le soin, la cabine
+            et la pression les plus justes pour un effet concret : mieux dormir, respirer plus librement, relâcher les épaules.
+          </p>
+        </article>
+      </div>
       <div class="chips">
-        <span>Soin immersif</span>
-        <span>Ambiance multisensorielle</span>
-        <span>Parcours personnalise</span>
-        <span>Bien-etre premium</span>
+        <span>Accueil personnalisé</span>
+        <span>Parcours sensoriel</span>
+        <span>Univers olfactifs distincts</span>
+        <span>Sortie de séance en douceur</span>
       </div>
     </section>
 
-    <section class="section reveal" id="offres">
-      <h2>Massages du monde</h2>
-      <div class="grid">
-        <article class="card">Californien</article>
-        <article class="card">Shiatsu</article>
-        <article class="card">Mauresque</article>
-        <article class="card">Balinais</article>
-        <article class="card">Abhyanga</article>
-        <article class="card">Lomi Lomi</article>
+    <section class="section reveal" id="experiences">
+      <div class="section-intro">
+        <p class="eyebrow eyebrow-soft">Expériences signature</p>
+        <h2>Choisir le bon soin selon votre besoin du moment.</h2>
+      </div>
+      <div class="experience-grid">
+        <article class="experience-card">
+          <span class="icon-badge" aria-hidden="true">MS</span>
+          <div>
+            <h3>Massages du monde</h3>
+            <p>Californien, shiatsu, suédois, thai à l'huile, mauresque, balinais, abhyanga ou lomi lomi : chaque protocole joue sur un rythme et une intensité différents.</p>
+          </div>
+          <ul class="mini-list">
+            <li><span>Bénéfices</span><strong>mieux dormir, moins de tensions cervicales</strong></li>
+            <li><span>Idéal après</span><strong>une semaine intense ou un trop-plein mental</strong></li>
+            <li><span>Pression</span><strong>de douce à soutenue</strong></li>
+          </ul>
+          <a class="cta small-cta" href="soins.html#massages">Voir détails et réserver</a>
+        </article>
+
+        <article class="experience-card">
+          <span class="icon-badge" aria-hidden="true">RT</span>
+          <div>
+            <h3>Rituels signature</h3>
+            <p>Des parcours plus longs, conçus comme de vrais voyages : chaleur, gommage, massage et temps d'apaisement s'enchaînent lentement pour un effet plus profond.</p>
+          </div>
+          <ul class="mini-list">
+            <li><span>Bénéfices</span><strong>relâchement durable, esprit plus calme</strong></li>
+            <li><span>Durée</span><strong>de 1 h 30 à 2 h 15</strong></li>
+            <li><span>Idéal pour</span><strong>déconnecter sans regarder l'heure</strong></li>
+          </ul>
+          <a class="cta small-cta" href="soins.html#rituels">Voir détails et réserver</a>
+        </article>
+
+        <article class="experience-card">
+          <span class="icon-badge" aria-hidden="true">VG</span>
+          <div>
+            <h3>Soins visage experts</h3>
+            <p>Hydratant, purifiant ou kobido anti-âge : des soins qui travaillent l'éclat, la tension du visage et le confort cutané sans perdre la dimension sensorielle.</p>
+          </div>
+          <ul class="mini-list">
+            <li><span>Bénéfices</span><strong>traits défatigués, teint plus frais</strong></li>
+            <li><span>Idéal avant</span><strong>un événement ou après une période de fatigue</strong></li>
+            <li><span>Format</span><strong>prix par personne</strong></li>
+          </ul>
+          <a class="cta small-cta" href="soins.html#visage">Voir détails et réserver</a>
+        </article>
+
+        <article class="experience-card">
+          <span class="icon-badge" aria-hidden="true">SP</span>
+          <div>
+            <h3>Spa privatif</h3>
+            <p>Intérieur, extérieur ou formule solo et duo : un moment plus intime pour ralentir ensemble, célébrer une occasion ou prolonger un rituel dans le calme.</p>
+          </div>
+          <ul class="mini-list">
+            <li><span>Bénéfices</span><strong>temps à deux, récupération douce, vrai sas de décompression</strong></li>
+            <li><span>Formats</span><strong>solo, duo, accès 1 h à 2 h</strong></li>
+            <li><span>Base tarifaire</span><strong>duo = prix pour 2 personnes</strong></li>
+          </ul>
+          <a class="cta small-cta" href="soins.html#spa">Voir détails et réserver</a>
+        </article>
+      </div>
+      <div class="section-actions">
+        <a class="cta" href="reservation.html">Réserver maintenant</a>
+        <a class="text-link" href="soins.html">Voir toutes les expériences</a>
       </div>
     </section>
 
-    <section class="section reveal">
-      <h2>Ambiance du Temple</h2>
-      <div class="media-grid">
-        <article class="media">
-          <img src="https://images.pexels.com/photos/35546242/pexels-photo-35546242.jpeg?cs=srgb&dl=pexels-vika-glitter-392079-35546242.jpg&fm=jpg" alt="Cabine de spa apaisante" loading="lazy">
-          <p>Cabines immersives et atmospheres cocooning.</p>
+    <section class="section reveal" id="parcours">
+      <div class="section-intro">
+        <p class="eyebrow eyebrow-soft">Parcours signature</p>
+        <h2>Trois exemples concrets pour sentir l'expérience avant de réserver.</h2>
+      </div>
+      <div class="experience-grid">
+        <article class="experience-card">
+          <h3>Parcours Japon</h3>
+          <p>Notes de hinoki, lumière douce, bain de pieds, shiatsu ciblé puis sortie accompagnée autour d'un thé chaud. Idéal si vous avez la nuque nouée et l'esprit trop chargé.</p>
+          <ul class="mini-list">
+            <li><span>Durée indicative</span><strong>1 h 15</strong></li>
+            <li><span>Tarif indicatif</span><strong>100 €</strong></li>
+            <li><span>Intensité</span><strong>moyen à soutenu</strong></li>
+          </ul>
+          <a class="cta small-cta" href="reservation.html?soin=Shiatsu&cabine=Japon">Réserver ce parcours</a>
         </article>
-        <article class="media">
-          <img src="https://images.pexels.com/photos/35884502/pexels-photo-35884502.jpeg?cs=srgb&dl=pexels-vika-glitter-392079-35884502.jpg&fm=jpg" alt="Table de massage" loading="lazy">
-          <p>Parcours sensoriel prepare pour chaque visite.</p>
+        <article class="experience-card">
+          <h3>Parcours Bali</h3>
+          <p>Huile chaude au frangipanier, massage balinais rythmé, respiration finale et peau souple. Un bon choix quand le corps a besoin de chaleur et de relance sans brutalité.</p>
+          <ul class="mini-list">
+            <li><span>Durée indicative</span><strong>1 h 30</strong></li>
+            <li><span>Tarif indicatif</span><strong>145 €</strong></li>
+            <li><span>Intensité</span><strong>doux à moyen</strong></li>
+          </ul>
+          <a class="cta small-cta" href="reservation.html?soin=Rituel%20Balinais&cabine=Bali">Réserver ce parcours</a>
         </article>
-        <article class="media">
-          <img src="https://images.pexels.com/photos/9336049/pexels-photo-9336049.jpeg?cs=srgb&dl=pexels-willpicturethis-9336049.jpg&fm=jpg" alt="Huiles de massage" loading="lazy">
-          <p>Huiles, rituels et gestes experts inspires du monde.</p>
+        <article class="experience-card">
+          <h3>Parcours Mauresque</h3>
+          <p>Ambre, vapeur, gommage, chaleur et rituel oriental dans une cabine enveloppante. Une bulle plus lente pour couper franchement avec l'extérieur et retrouver du confort.</p>
+          <ul class="mini-list">
+            <li><span>Durée indicative</span><strong>1 h 45</strong></li>
+            <li><span>Tarif indicatif</span><strong>165 €</strong></li>
+            <li><span>Intensité</span><strong>doux</strong></li>
+          </ul>
+          <a class="cta small-cta" href="reservation.html?soin=Rituel%20Oriental&cabine=Mauresque">Réserver ce parcours</a>
         </article>
+      </div>
+      <div class="section-actions">
+        <a class="cta" href="reservation.html">Réserver un parcours</a>
       </div>
     </section>
 
-    <section class="section reveal">
-      <h2>Grille tarifaire</h2>
-      <p class="small">Tarifs fournis par vos soins.</p>
+    <section class="section reveal" id="tarifs">
+      <div class="section-intro">
+        <p class="eyebrow eyebrow-soft">Tarifs clairs</p>
+        <h2>Des repères simples avant la réservation.</h2>
+        <div class="prices-note">
+          <span>Massages et visage : prix par personne</span>
+          <span>Spa duo : prix pour 2 personnes</span>
+          <span>Formats duo selon le soin et la cabine</span>
+        </div>
+      </div>
       <div class="pricing-grid">
         <article class="price-card">
-          <h3>Massage du monde</h3>
+          <h3>Massages</h3>
           <ul class="price-list">
-            <li><span>Californien (1h)</span><strong>95 EUR</strong></li>
-            <li><span>Shiatsu (1h)</span><strong>95 EUR</strong></li>
-            <li><span>Suedois (1h)</span><strong>95 EUR</strong></li>
-            <li><span>Thai a l'huile (1h)</span><strong>95 EUR</strong></li>
-            <li><span>Mauresque (1h)</span><strong>95 EUR</strong></li>
-            <li><span>Balinais (1h)</span><strong>95 EUR</strong></li>
-            <li><span>Abhyanga (1h / 1h30)</span><strong>95 / 115 EUR</strong></li>
-            <li><span>Lomi Lomi (1h / 1h30)</span><strong>95 / 115 EUR</strong></li>
-          </ul>
-        </article>
-        <article class="price-card">
-          <h3>Massages avec accessoires</h3>
-          <ul class="price-list">
-            <li><span>A la bougie (1h)</span><strong>105 EUR</strong></li>
-            <li><span>Aux bambous (1h)</span><strong>110 EUR</strong></li>
-            <li><span>Aux pochons (1h)</span><strong>110 EUR</strong></li>
+            <li><span>Californien</span><strong>95 €</strong></li>
+            <li><span>Shiatsu / Suédois</span><strong>100 €</strong></li>
+            <li><span>Thai à l'huile</span><strong>105 €</strong></li>
+            <li><span>Mauresque / Balinais</span><strong>120 €</strong></li>
+            <li><span>Abhyanga / Lomi Lomi</span><strong>125 €</strong></li>
           </ul>
         </article>
         <article class="price-card">
           <h3>Rituels</h3>
           <ul class="price-list">
-            <li><span>Oriental (1h45)</span><strong>155 EUR</strong></li>
-            <li><span>Ayurvedique (1h30)</span><strong>135 EUR</strong></li>
-            <li><span>Balinais (1h30)</span><strong>135 EUR</strong></li>
-            <li><span>Nordique (2h15)</span><strong>185 EUR</strong></li>
+            <li><span>Oriental</span><strong>165 €</strong></li>
+            <li><span>Ayurvédique</span><strong>145 €</strong></li>
+            <li><span>Balinais</span><strong>145 €</strong></li>
+            <li><span>Nordique</span><strong>190 €</strong></li>
           </ul>
         </article>
         <article class="price-card">
-          <h3>Soins du visage</h3>
+          <h3>Visage</h3>
           <ul class="price-list">
-            <li><span>Hydratant</span><strong>90 EUR</strong></li>
-            <li><span>Purifiant</span><strong>90 EUR</strong></li>
-            <li><span>Anti-age (Kobido)</span><strong>100 EUR</strong></li>
+            <li><span>Hydratant</span><strong>95 €</strong></li>
+            <li><span>Purifiant</span><strong>95 €</strong></li>
+            <li><span>Kobido anti-âge</span><strong>120 €</strong></li>
           </ul>
         </article>
+        <article class="price-card">
+          <h3>Spa privatif</h3>
+          <ul class="price-list">
+            <li><span>Accès spa 1 h</span><strong>60 €</strong></li>
+            <li><span>Accès spa 1 h 30</span><strong>80 €</strong></li>
+            <li><span>Duo 1 h / 1 h 30 / 2 h</span><strong>100 / 135 / 170 €</strong></li>
+          </ul>
+          <p class="small-note"><strong>Bon à savoir :</strong> le tarif duo correspond à 2 personnes.</p>
+        </article>
+      </div>
+      <div class="section-actions">
+        <a class="cta" href="reservation.html">Réserver</a>
+        <a class="text-link" href="soins.html">Voir les détails des soins</a>
       </div>
     </section>
 
-    <section class="section reveal">
-      <h2>Spa privatif interieur / exterieur</h2>
-      <div class="pricing-grid two-cols">
-        <article class="price-card">
-          <h3>Acces spa</h3>
-          <ul class="price-list">
-            <li><span>Spa privatif interieur/exterieur - 1h</span><strong>60 EUR</strong></li>
-            <li><span>Spa privatif interieur/exterieur - 1h30</span><strong>80 EUR</strong></li>
-            <li><span>Spa privatif interieur/exterieur - 2h</span><strong>100 EUR</strong></li>
-            <li><span>Spa privatif exterieur* - 1h</span><strong>50 EUR</strong></li>
-            <li><span>Spa privatif exterieur* - 1h30</span><strong>70 EUR</strong></li>
-            <li><span>Spa privatif exterieur* - 2h</span><strong>90 EUR</strong></li>
+    <section class="section reveal" id="faq">
+      <div class="section-intro">
+        <p class="eyebrow eyebrow-soft">Première visite / FAQ</p>
+        <h2>Tout ce qu'il faut savoir avant de venir, en un seul bloc.</h2>
+      </div>
+      <div class="split">
+        <article class="panel">
+          <h3>Comment se passe la séance ?</h3>
+          <ul class="feature-list">
+            <li>Arrivez 10 minutes avant l'heure pour vous poser et préciser vos attentes du jour.</li>
+            <li>Nous confirmons avec vous le soin, la cabine et l'intensité de pression adaptée.</li>
+            <li>Le linge, la tenue de confort et les produits de soin sont prévus sur place.</li>
+            <li>Un temps calme est préservé à la fin pour repartir plus doucement et prolonger les effets.</li>
           </ul>
         </article>
-        <article class="price-card">
-          <h3>Formules</h3>
-          <ul class="price-list">
-            <li><span>Solo - 1h / 1h30 / 2h</span><strong>90 / 120 / 150 EUR</strong></li>
-            <li><span>Duo - 1h / 1h30 / 2h</span><strong>100 / 135 / 170 EUR</strong></li>
+        <article class="panel">
+          <h3>Avant de venir</h3>
+          <div class="practical-pills">
+            <span>10 min d'avance conseillées</span>
+            <span>CB, espèces, cartes cadeaux</span>
+            <span>PMR : contactez-nous</span>
+          </div>
+          <ul class="feature-list">
+            <li>Annulation sans frais jusqu'à 24 h avant le rendez-vous.</li>
+            <li>En cas de retard, la durée du soin peut être ajustée pour respecter les rendez-vous suivants.</li>
+            <li>Formats solo et duo disponibles selon le soin choisi.</li>
           </ul>
-          <p class="small-note">*Bain nordique disponible d'octobre a avril.</p>
+        </article>
+      </div>
+      <div class="faq-grid">
+        <article class="faq-card">
+          <h3>Praticiens formés</h3>
+          <p>Notre équipe est formée aux massages du monde, au réglage de la pression et à l'adaptation du protocole selon vos tensions du jour.</p>
+        </article>
+        <article class="faq-card">
+          <h3>Hygiène rigoureuse</h3>
+          <p>Le linge est renouvelé entre chaque rendez-vous, les surfaces sont nettoyées après chaque séance et les huiles sont sélectionnées pour le confort de la peau.</p>
+        </article>
+        <article class="faq-card">
+          <h3>Accessibilité</h3>
+          <p>Si vous avez besoin d'un accompagnement spécifique ou d'un point d'attention PMR, contactez-nous avant votre venue pour préparer l'accueil.</p>
+        </article>
+        <article class="faq-card">
+          <h3>Besoin d'aide pour choisir ?</h3>
+          <p>Un soin doux si vous cherchez le lâcher-prise, plus soutenu si vous avez des tensions cervicales ou une fatigue musculaire marquée.</p>
+        </article>
+      </div>
+      <div class="section-actions">
+        <a class="cta" href="reservation.html">Réserver une première visite</a>
+      </div>
+    </section>
+
+    <section class="section reveal" id="avis">
+      <div class="section-intro">
+        <p class="eyebrow eyebrow-soft">Avis clients</p>
+        <h2>Des retours courts, faciles à lire, qui mettent surtout en avant le bénéfice ressenti.</h2>
+      </div>
+      <ul class="testimonial-list">
+        <li class="testimonial-item">
+          <span class="testimonial-meta">Camille — massage californien — mars 2026</span>
+          Mieux dormi dès le soir même, avec une sensation d'épaules beaucoup plus légères.
+        </li>
+        <li class="testimonial-item">
+          <span class="testimonial-meta">Nora — rituel oriental duo — mars 2026</span>
+          Une vraie coupure mentale, idéale après une semaine intense et très chargée.
+        </li>
+        <li class="testimonial-item">
+          <span class="testimonial-meta">Julien — shiatsu — mars 2026</span>
+          Moins de tensions cervicales et une impression de clarté dès la sortie.
+        </li>
+      </ul>
+    </section>
+
+    <section class="section reveal" id="infos-pratiques">
+      <div class="section-intro">
+        <p class="eyebrow eyebrow-soft">Infos pratiques</p>
+        <h2>Nous trouver et préparer facilement votre venue.</h2>
+      </div>
+      <div class="split">
+        <article class="panel">
+          <h3>Adresse & accès</h3>
+          <p>
+            <a class="footer-map-link" href="https://www.google.com/maps/search/?api=1&query=12+Avenue+du+Voyage+Sensoriel,+75000+Paris" target="_blank" rel="noopener noreferrer">
+              12 Avenue du Voyage Sensoriel, 75000 Paris
+            </a>
+          </p>
+          <div class="practical-pills">
+            <span>Métro 4</span>
+            <span>Parking à 3 min</span>
+            <span>Ouvert 7 j / 7</span>
+          </div>
+        </article>
+        <article class="panel">
+          <h3>Horaires & contact</h3>
+          <ul class="feature-list">
+            <li>Lundi à dimanche, de 10 h 00 à 22 h 00.</li>
+            <li>Contact direct pour une arrivée PMR, une demande duo ou un besoin spécifique.</li>
+            <li>Paiements acceptés : CB, espèces et cartes cadeaux.</li>
+          </ul>
         </article>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>Le Temple - 2026</p>
-    <a class="employee-link" href="employes.html">Acces employe</a>
+    <div class="footer-shell">
+      <div>
+        <p class="footer-brand">Le Temple</p>
+        <p class="footer-copy">
+          Spa holistique et sensoriel à Paris. Massages du monde, rituels signature, soins visage et spa privatif
+          pour ralentir, récupérer et se recentrer.
+        </p>
+      </div>
+      <div class="footer-meta">
+        <p>
+          <a class="footer-map-link" href="https://www.google.com/maps/search/?api=1&query=12+Avenue+du+Voyage+Sensoriel,+75000+Paris" target="_blank" rel="noopener noreferrer">
+            12 Avenue du Voyage Sensoriel, 75000 Paris
+          </a>
+        </p>
+        <p>Lundi - Dimanche, 10 h 00 - 22 h 00</p>
+        <div class="practical-pills">
+          <span>Métro 4</span>
+          <span>Parking 3 min</span>
+          <span>PMR : sur demande</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-links">
+          <a href="soins.html">Expériences</a>
+          <a href="reservation.html">Réservation</a>
+          <a href="contact.html">Contact</a>
+          <a href="cabines.html">Cabines détaillées</a>
+        </div>
+        <div class="footer-legal">
+          <a href="conditions-utilisation.html">Conditions d'utilisation</a>
+          <a href="protection-donnees.html">Protection des données</a>
+        </div>
+      </div>
+    </div>
+    <a class="employee-link" href="employes.html">Accès employé</a>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>
-
-
