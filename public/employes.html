@@ -21,7 +21,10 @@
       <div class="menu" id="site-menu">
         <a href="index.html">Accueil</a>
         <a href="concept.html">Concept</a>
+        <a href="cabines.html">Cabines</a>
         <a href="soins.html">Experiences</a>
+        <a href="jeu.html">Jeu</a>
+        <a href="reservation.html">Reservation</a>
         <a href="contact.html">Contact</a>
         <a href="connexion.html">Connexion</a>
       </div>
@@ -41,10 +44,23 @@
 
   <main>
     <section class="section reveal form-section" id="employeeLoginBox">
+      <div class="credentials-card">
+        <p class="eyebrow eyebrow-soft">Compte employe test</p>
+        <h2>Connexion de demonstration</h2>
+        <p>Utilisez ce compte pour afficher le planning de la semaine, les reservations et le stock.</p>
+        <ul class="credential-list">
+          <li><span>Email</span><strong>employe@le-temple.fr</strong></li>
+          <li><span>Mot de passe</span><strong>Employe123!</strong></li>
+        </ul>
+      </div>
+
       <h2>Connexion employe</h2>
       <form class="spa-form" id="employeeLoginForm">
-        <label>Code employe
-          <input type="password" id="employeeCode" required>
+        <label>Email
+          <input type="email" id="employeeEmail" required>
+        </label>
+        <label>Mot de passe
+          <input type="password" id="employeePassword" required>
         </label>
         <button class="cta" type="submit">Se connecter</button>
         <p class="form-status" id="employeeStatus" aria-live="polite"></p>
@@ -52,63 +68,118 @@
     </section>
 
     <section class="section reveal" id="employeeApp" hidden>
-      <div class="employee-actions">
-        <button class="cta danger" type="button" id="employeeLogoutBtn">Deconnexion</button>
+      <div class="employee-toolbar">
+        <div>
+          <p class="eyebrow eyebrow-soft">Espace interne</p>
+          <h2 id="employeeWelcome">Bonjour</h2>
+          <p class="small-note" id="employeeSessionMeta">Planning de la semaine et stock de cabine.</p>
+        </div>
+        <div class="employee-actions">
+          <button class="cta danger" type="button" id="employeeLogoutBtn">Deconnexion</button>
+        </div>
       </div>
-      <div class="split">
+
+      <div class="dashboard-tabs" role="tablist" aria-label="Onglets employe">
+        <button class="tab-button is-active" type="button" data-tab-target="planning">Planning / EDT</button>
+        <button class="tab-button" type="button" data-tab-target="stock">Stock semaine</button>
+      </div>
+
+      <div class="tab-panel" data-tab-panel="planning">
+        <div class="week-switcher">
+          <button class="cta ghost-button" type="button" id="planningPrevWeekBtn">Semaine precedente</button>
+          <strong id="planningWeekLabel">Semaine</strong>
+          <button class="cta ghost-button" type="button" id="planningNextWeekBtn">Semaine suivante</button>
+        </div>
+
         <article class="panel">
-          <h3>Planning</h3>
+          <h3>Planning / EDT</h3>
           <div class="table-wrap">
-            <table id="planningTable">
-              <thead><tr><th>Date</th><th>Heure</th><th>Total</th><th>Details</th></tr></thead>
+            <table id="employeeScheduleTable">
+              <thead>
+                <tr>
+                  <th>Jour</th>
+                  <th>Heure</th>
+                  <th>Client</th>
+                  <th>Soin</th>
+                  <th>Cabine</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
               <tbody></tbody>
             </table>
           </div>
         </article>
+
+        <div class="split employee-data-grid">
+          <article class="panel">
+            <h3>Reservations automatiques</h3>
+            <div class="reservation-stream" id="autoReservationsList"></div>
+          </article>
+          <article class="panel">
+            <h3>Reservations manuelles</h3>
+            <div class="reservation-stream" id="manualReservationsList"></div>
+          </div>
+        </div>
+
         <article class="panel">
-          <h3>Demandes clients</h3>
+          <h3>Ajouter une reservation a la main</h3>
+          <form class="spa-form" id="manualReservationForm">
+            <label>Nom client
+              <input type="text" name="nom" required>
+            </label>
+            <label>Type de soin
+              <input type="text" name="soin" required>
+            </label>
+            <label>Date
+              <input type="date" name="date" required>
+            </label>
+            <label>Heure
+              <input type="time" name="heure" required>
+            </label>
+            <label>Cabine
+              <select name="cabine" required>
+                <option value="">Choisir une cabine</option>
+                <option>Japon</option>
+                <option>Bali</option>
+                <option>Europe</option>
+                <option>Thailande</option>
+                <option>Mauresque</option>
+              </select>
+            </label>
+            <label>Commentaire
+              <textarea name="commentaire" rows="3" placeholder="Precisions sur le rendez-vous"></textarea>
+            </label>
+            <button class="cta" type="submit">Ajouter</button>
+            <p class="form-status" id="manualReservationStatus" aria-live="polite"></p>
+          </form>
+        </article>
+      </div>
+
+      <div class="tab-panel" data-tab-panel="stock" hidden>
+        <div class="week-switcher">
+          <button class="cta ghost-button" type="button" id="stockPrevWeekBtn">Semaine precedente</button>
+          <strong id="stockWeekLabel">Semaine</strong>
+          <button class="cta ghost-button" type="button" id="stockNextWeekBtn">Semaine suivante</button>
+        </div>
+
+        <article class="panel">
+          <h3>Stock semaine</h3>
           <div class="table-wrap">
-            <table id="demandesTable">
-              <thead><tr><th>Date</th><th>Nom</th><th>Sujet</th><th>Message</th></tr></thead>
+            <table id="stockWeekTable">
+              <thead>
+                <tr>
+                  <th>Produit</th>
+                  <th>Stock initial</th>
+                  <th>Stock utilise</th>
+                  <th>Stock restant</th>
+                </tr>
+              </thead>
               <tbody></tbody>
             </table>
           </div>
+          <p class="form-status" id="stocksStatus" aria-live="polite"></p>
         </article>
       </div>
-    </section>
-
-    <section class="section reveal" id="employeeStockSection" hidden>
-      <h2>Stocks</h2>
-      <form class="spa-form" id="stockAddForm">
-        <label>Produit
-          <input type="text" id="stockNameInput" placeholder="Nom du produit" required>
-        </label>
-        <label>Quantite initiale
-          <input type="number" id="stockQtyInput" min="0" step="1" value="0" required>
-        </label>
-        <label>Unite
-          <input type="text" id="stockUnitInput" placeholder="flacons, pieces, sets..." required>
-        </label>
-        <button class="cta" type="submit">Ajouter au stock</button>
-      </form>
-      <div class="table-wrap">
-        <table id="stocksTable">
-          <thead><tr><th>Produit</th><th>Quantite</th><th>Unite</th><th>Actions</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <p class="form-status" id="stocksStatus" aria-live="polite"></p>
-    </section>
-
-    <section class="section reveal form-section" id="employeeNotesSection" hidden>
-      <h2>Notes planning</h2>
-      <form class="spa-form" id="planningNoteForm">
-        <label>Nouvelle note
-          <textarea id="planningNoteInput" rows="3" required></textarea>
-        </label>
-        <button class="cta" type="submit">Ajouter la note</button>
-      </form>
-      <ul class="price-list" id="planningNotesList"></ul>
     </section>
   </main>
 

@@ -24,7 +24,10 @@
       <div class="menu" id="site-menu">
         <a href="index.html">Accueil</a>
         <a href="concept.html">Concept</a>
+        <a href="cabines.html">Cabines</a>
         <a href="soins.html">Experiences</a>
+        <a href="jeu.html">Jeu</a>
+        <a href="reservation.html" aria-current="page">Reservation</a>
         <a href="contact.html">Contact</a>
         <a href="connexion.html">Connexion</a>
       </div>
@@ -43,6 +46,14 @@
         Nous avons ajoute les reperes qui manquent le plus souvent avant une reservation: format, deroule de la seance,
         conditions essentielles et disponibilites par cabine.
       </p>
+      <div class="hero-actions">
+        <a class="cta cta-book" href="#formulaire-reservation">Reserver maintenant</a>
+        <a class="text-link text-link-light" href="#faq-reservation">Questions frequentes</a>
+      </div>
+      <div class="social-proof social-proof-hero">
+        <strong>Note moyenne 4,9/5</strong>
+        <span>187 avis pour rassurer avant une premiere visite ou un cadeau.</span>
+      </div>
     </div>
   </header>
 
@@ -75,8 +86,34 @@
       </div>
     </section>
 
-    <section class="section reveal form-section">
+    <section class="section reveal">
+      <div class="split split-spotlight">
+        <article class="offer-card">
+          <p class="offer-kicker">Offre du moment</p>
+          <h3>Premiere visite sans friction</h3>
+          <p>Besoin d'un premier repere simple ? Nous pouvons orienter vers un massage californien, un hydratant visage ou un duo cocooning selon votre besoin.</p>
+          <div class="choice-tags">
+            <span>Ideal premiere visite</span>
+            <span>Decision rapide</span>
+          </div>
+          <a class="text-link" href="soins.html#configurateur">Passer par le mini configurateur</a>
+        </article>
+        <article class="gift-card">
+          <p class="eyebrow eyebrow-soft">Cartes cadeaux / Offrir un soin</p>
+          <h3>Un soin a offrir sans compliquer le choix.</h3>
+          <p>Nous pouvons pre-orienter la reservation comme un cadeau et laisser un message avec votre intention : recuperation, anniversaire, duo ou besoin de souffler.</p>
+          <a class="cta small-cta" href="reservation.html?source=carte-cadeau&note=Je%20souhaite%20offrir%20un%20soin%20ou%20preparer%20une%20carte%20cadeau">Offrir un soin</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section reveal form-section" id="formulaire-reservation">
       <h2>Reserver un soin</h2>
+      <div class="social-proof social-proof-inline">
+        <strong>Note moyenne</strong>
+        <span>4,9/5 sur 187 avis - massages, rituels, duo et soins visage.</span>
+      </div>
+      <div class="prefill-context" data-reservation-context hidden></div>
       <form class="spa-form api-form" data-endpoint="/api/reservations">
         <label>Nom complet
           <input type="text" name="nom" required>
@@ -156,34 +193,54 @@
           </span>
         </label>
         <button type="submit" class="cta">Envoyer la demande</button>
+        <p class="small-note">Besoin d'offrir ce soin ? Mentionnez-le dans le message et nous preparerons la demande comme une carte cadeau.</p>
         <p class="form-status" data-form-status aria-live="polite"></p>
       </form>
       <div class="availability" data-availability></div>
       <p class="small-note">Les creneaux se chargent selon la cabine et la date choisies, de 10h00 a 22h00.</p>
     </section>
 
-    <section class="section reveal">
+    <section class="section reveal" id="faq-reservation">
       <div class="section-intro">
-        <p class="eyebrow eyebrow-soft">Conditions utiles</p>
-        <h2>Les informations que l'on cherche juste avant de valider.</h2>
+        <p class="eyebrow eyebrow-soft">FAQ reservation</p>
+        <h2>Les reponses utiles juste avant de valider.</h2>
       </div>
-      <div class="facts-grid">
-        <article class="fact-card">
-          <h3>Annulation</h3>
-          <p>Sans frais jusqu'a 24 h avant le rendez-vous. Passe ce delai, la seance peut etre due ou reportee selon disponibilite.</p>
-        </article>
-        <article class="fact-card">
-          <h3>Retard</h3>
-          <p>En cas de retard, le temps de soin peut etre ajuste pour respecter les rendez-vous suivants et conserver le confort de tous.</p>
-        </article>
-        <article class="fact-card">
-          <h3>Paiement</h3>
-          <p>CB, especes et cartes cadeaux sont acceptes sur place. Les details de paiement peuvent etre confirmes lors de la prise de rendez-vous.</p>
-        </article>
-        <article class="fact-card">
-          <h3>Age minimum</h3>
-          <p>Les soins sont proposes a partir de 16 ans avec accompagnement d'un adulte. Certaines experiences peuvent exiger 18 ans.</p>
-        </article>
+      <div class="accordion-stack">
+        <details class="faq-accordion" open>
+          <summary>Annulation et modification</summary>
+          <div class="accordion-body">
+            <p>Sans frais jusqu'a 24 h avant le rendez-vous. Passe ce delai, la seance peut etre due ou reportee selon disponibilite.</p>
+          </div>
+        </details>
+        <details class="faq-accordion">
+          <summary>Acompte et paiement</summary>
+          <div class="accordion-body">
+            <p>CB, especes et cartes cadeaux sont acceptes sur place. Si un acompte est necessaire pour une formule specifique, il est confirme avant validation.</p>
+          </div>
+        </details>
+        <details class="faq-accordion">
+          <summary>Retard le jour du rendez-vous</summary>
+          <div class="accordion-body">
+            <p>En cas de retard, le temps de soin peut etre ajuste pour respecter les rendez-vous suivants et conserver le confort de tous.</p>
+          </div>
+        </details>
+        <details class="faq-accordion">
+          <summary>Solo, duo et cartes cadeaux</summary>
+          <div class="accordion-body">
+            <p>Le format duo correspond a 2 personnes. Si vous offrez un soin ou souhaitez venir a deux, indiquez-le dans le message pour que nous preparions la reservation en consequence.</p>
+          </div>
+        </details>
+        <details class="faq-accordion">
+          <summary>Tarifs express</summary>
+          <div class="accordion-body">
+            <ul class="price-list">
+              <li><span>Massages 60 min</span><strong>95 a 115 EUR</strong></li>
+              <li><span>Rituels</span><strong>145 a 190 EUR</strong></li>
+              <li><span>Soins visage</span><strong>95 a 120 EUR</strong></li>
+              <li><span>Spa duo</span><strong>100 a 170 EUR</strong></li>
+            </ul>
+          </div>
+        </details>
       </div>
     </section>
   </main>

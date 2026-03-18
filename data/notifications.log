@@ -27,3 +27,7 @@
 [2026-03-15T17:31:19.595Z] mail_error: {"scope":"reservation_confirmation","email":"rgpd.resa.1773595878@example.com","error":"Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to\n535 5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-439fe1abf84sm31992636f8f.14 - gsmtp"}
 [2026-03-15T20:48:32.326Z] stock_add: {"id":"be7e0c21-b717-46db-b8c5-4acabd2560c0","name":"Test Codex","qty":3,"unit":"pieces"}
 [2026-03-15T20:48:32.415Z] stock_delete: {"id":"be7e0c21-b717-46db-b8c5-4acabd2560c0"}
+[2026-03-18T14:22:36.403Z] register: {"email":"test.client@le-temple.fr","nom":"Michel"}
+[2026-03-18T14:22:49.747Z] login: {"email":"test.client@le-temple.fr","tokenPreview":"1a3a20ae"}
+[2026-03-18T14:22:50.354Z] login: {"email":"test.client@le-temple.fr","tokenPreview":"cde74858"}
+[2026-03-18T14:23:05.570Z] game_spin: {"email":"test.client@le-temple.fr","reward":{"label":"Remise de 10%","points":40}}

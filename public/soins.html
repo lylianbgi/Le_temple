@@ -24,7 +24,10 @@
       <div class="menu" id="site-menu">
         <a href="index.html">Accueil</a>
         <a href="concept.html">Concept</a>
+        <a href="cabines.html">Cabines</a>
         <a href="soins.html" aria-current="page">Experiences</a>
+        <a href="jeu.html">Jeu</a>
+        <a href="reservation.html">Reservation</a>
         <a href="contact.html">Contact</a>
         <a href="connexion.html">Connexion</a>
       </div>
@@ -44,6 +47,14 @@
         comparer les ambiances, comprendre a qui chaque soin s'adresse et reserver directement avec
         une selection deja pre-remplie.
       </p>
+      <div class="hero-actions">
+        <a class="cta cta-book" href="reservation.html">Reserver maintenant</a>
+        <a class="text-link text-link-light" href="#configurateur">Choisir selon mon besoin</a>
+      </div>
+      <div class="social-proof social-proof-hero">
+        <strong>Note moyenne 4,9/5</strong>
+        <span>187 avis inspires pour aider a choisir vite entre massage, rituel, visage et duo.</span>
+      </div>
     </div>
   </header>
 
@@ -59,6 +70,46 @@
         <a href="#spa">Spa privatif</a>
         <a href="#jeu">Jeu fidelite</a>
       </div>
+    </section>
+
+    <section class="section reveal" id="configurateur">
+      <div class="section-intro">
+        <p class="eyebrow eyebrow-soft">Mini configurateur</p>
+        <h2>Je choisis mon besoin, vous proposez 2 ou 3 soins coherents.</h2>
+        <p>Un raccourci utile quand on hesite entre plusieurs univers ou quand on veut reserver sans lire toute la carte.</p>
+      </div>
+      <div class="need-configurator" data-need-configurator>
+        <div class="need-picker" role="tablist" aria-label="Choisir mon besoin">
+          <button type="button" class="need-pill is-active" data-need="mieux-dormir">Mieux dormir</button>
+          <button type="button" class="need-pill" data-need="douleurs">Douleurs / tensions</button>
+          <button type="button" class="need-pill" data-need="lacher-prise">Lacher-prise</button>
+        </div>
+        <div class="configurator-results" data-need-results aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <details class="faq-accordion pricing-accordion" open>
+        <summary>Tarifs express et reperes rapides</summary>
+        <div class="accordion-body">
+          <div class="pricing-grid">
+            <article class="price-card">
+              <h3>Massages</h3>
+              <ul class="price-list">
+                <li><span>60 min</span><strong>95 a 115 EUR</strong></li>
+                <li><span>75 min</span><strong>120 a 125 EUR</strong></li>
+              </ul>
+            </article>
+            <article class="price-card">
+              <h3>Rituels et visage</h3>
+              <ul class="price-list">
+                <li><span>Visage</span><strong>95 a 120 EUR</strong></li>
+                <li><span>Rituels</span><strong>145 a 190 EUR</strong></li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </details>
     </section>
 
     <section class="section reveal" id="cabines">
@@ -121,7 +172,7 @@
         <h2>Des protocoles a choisir selon votre besoin: relacher, recuperer, reequilibrer ou couper net avec le stress.</h2>
       </div>
       <div class="rituels">
-        <article class="price-card">
+        <article class="price-card" id="soin-californien">
           <h3>Californien</h3>
           <p class="small">60 min - 95 EUR par personne</p>
           <p>Un massage enveloppant et fluide, ideal quand le systeme nerveux est surcharge et que le corps a besoin d'etre rassure avant tout.</p>
@@ -132,7 +183,7 @@
           <p class="small-note"><strong>Bienfaits :</strong> detente musculaire, sommeil facilite, apaisement emotionnel.</p>
           <a class="cta small-cta" href="reservation.html?soin=Californien&cabine=Europe">Reserver ce soin</a>
         </article>
-        <article class="price-card">
+        <article class="price-card" id="soin-shiatsu">
           <h3>Shiatsu</h3>
           <p class="small">60 min - 100 EUR par personne</p>
           <p>Des pressions ciblees et un travail de recentrage qui conviennent bien aux personnes tendues, sur-sollicitees ou en perte d'energie.</p>
@@ -165,7 +216,7 @@
           <p class="small-note"><strong>Bienfaits :</strong> assouplissement, circulation relancee, esprit plus alerte.</p>
           <a class="cta small-cta" href="reservation.html?soin=Thai%20a%20l%27huile&cabine=Thailande">Reserver ce soin</a>
         </article>
-        <article class="price-card">
+        <article class="price-card" id="soin-mauresque">
           <h3>Mauresque</h3>
           <p class="small">75 min - 120 EUR par personne</p>
           <p>Un massage chaleureux et enveloppant, ideal pour les personnes qui ont besoin de se sentir contenues et profondement detendues.</p>
@@ -187,7 +238,7 @@
           <p class="small-note"><strong>Bienfaits :</strong> meilleure circulation, harmonie globale, regain de vitalite.</p>
           <a class="cta small-cta" href="reservation.html?soin=Balinais&cabine=Bali">Reserver ce soin</a>
         </article>
-        <article class="price-card">
+        <article class="price-card" id="soin-abhyanga">
           <h3>Abhyanga</h3>
           <p class="small">75 min - 125 EUR par personne</p>
           <p>Un soin a l'huile chaude, lent et profond, qui rassure le corps, calme le mental et convient bien aux rythmes de vie trop soutenus.</p>
@@ -260,7 +311,7 @@
         <h2>Des parcours plus longs pour les jours ou une heure ne suffit pas.</h2>
       </div>
       <div class="rituels">
-        <article class="price-card">
+        <article class="price-card" id="soin-rituel-oriental">
           <h3>Rituel Oriental</h3>
           <p class="small">1 h 45 - 165 EUR par personne</p>
           <p>Gommage, chaleur et massage dans une ambiance ambree et enveloppante. Une experience faite pour couper franchement avec le rythme exterieur.</p>
@@ -271,7 +322,7 @@
           <p class="small-note"><strong>Bienfaits :</strong> peau douce, detente intense, sensation de refuge.</p>
           <a class="cta small-cta" href="reservation.html?soin=Rituel%20Oriental&cabine=Mauresque">Reserver ce rituel</a>
         </article>
-        <article class="price-card">
+        <article class="price-card" id="soin-rituel-ayurvedique">
           <h3>Rituel Ayurvedique</h3>
           <p class="small">1 h 30 - 145 EUR par personne</p>
           <p>Un enchainement reequilibrant qui associe gommage doux et massage abhyanga pour calmer le systeme nerveux et redonner de l'ancrage.</p>
@@ -313,7 +364,7 @@
         <h2>Des protocoles experts pour travailler l'eclat, le confort et la detente des traits.</h2>
       </div>
       <div class="rituels">
-        <article class="price-card">
+        <article class="price-card" id="soin-hydratant">
           <h3>Hydratant</h3>
           <p class="small">60 min - 95 EUR par personne</p>
           <p>Un soin reconfortant pour les peaux ternes, tirees ou fatiguees, avec un vrai temps de detente du visage et du haut du corps.</p>
@@ -335,7 +386,7 @@
           <p class="small-note"><strong>Bienfaits :</strong> peau assainie, pores resserres, teint plus lumineux.</p>
           <a class="cta small-cta" href="reservation.html?soin=Soin%20visage%20purifiant&cabine=Europe">Reserver ce soin</a>
         </article>
-        <article class="price-card">
+        <article class="price-card" id="soin-kobido">
           <h3>Anti-age (Kobido)</h3>
           <p class="small">75 min - 120 EUR par personne</p>
           <p>Un soin precis et tonique inspire du kobido pour lisser les traits, delier les tensions du visage et redonner de l'eclat.</p>
@@ -407,6 +458,15 @@
           <a class="cta small-cta" href="jeu.html">Voir le jeu fidelite</a>
         </article>
       </div>
+    </section>
+
+    <section class="section reveal" id="faq-conseils">
+      <div class="section-intro">
+        <p class="eyebrow eyebrow-soft">FAQ & conseils personnalises</p>
+        <h2>Des reponses et des soins recommandes selon votre besoin du moment.</h2>
+        <p>Connectez-vous pour debloquer la version personnalisee et voir les recommandations adaptees a votre profil client.</p>
+      </div>
+      <div data-personalized-faq></div>
     </section>
   </main>
 

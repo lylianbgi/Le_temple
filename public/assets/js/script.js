@@ -5,6 +5,141 @@ const menuBackdrop = document.querySelector(".menu-backdrop");
 const langButtons = document.querySelectorAll("[data-lang-toggle]");
 document.documentElement.classList.add("js");
 
+const menuNotesByHref = {
+  "index.html": "Spa sensoriel a Paris",
+  "concept.html": "Vision, equipe, philosophie",
+  "cabines.html": "5 univers immersifs",
+  "soins.html": "Choisir selon votre besoin",
+  "jeu.html": "Tente de gagner un soin",
+  "reservation.html": "Rendez-vous pre-rempli",
+  "contact.html": "Acces, horaires, questions",
+  "connexion.html": "Compte et fidelite"
+};
+
+const careTagMap = {
+  Californien: ["Ideal apres une semaine intense", "Parfait en premiere visite"],
+  Shiatsu: ["Tensions cervicales", "Recentrage rapide"],
+  Suedois: ["Recuperation musculaire", "Ideal apres le sport"],
+  "Thai a l'huile": ["Corps raide", "Energie relancee"],
+  Mauresque: ["Besoin de cocon", "Lacher-prise profond"],
+  Balinais: ["Relance douce", "Evasion immediate"],
+  Abhyanga: ["Mieux dormir", "Ancrage et chaleur"],
+  "Lomi Lomi": ["Massage enveloppant", "Esprit plus leger"],
+  "A la bougie": ["Reconfort", "Peau nourrie"],
+  "Aux bambous": ["Pression soutenue", "Top apres tensions installees"],
+  "Aux pochons": ["Chaleur diffuse", "Ideal en hiver"],
+  "Rituel Oriental": ["Top cadeau", "Parfait en duo"],
+  "Rituel Ayurvedique": ["Stress intense", "Retour au calme"],
+  "Rituel Balinais": ["Besoin d'evasion", "Corps fatigue"],
+  "Rituel Nordique": ["Grande recuperation", "Saison froide"],
+  Hydratant: ["Teint fatigue", "Avant un evenement"],
+  Purifiant: ["Peau brouillee", "Effet net et frais"],
+  "Anti-age (Kobido)": ["Traits froisses", "Visage tonifie"],
+  "Acces spa": ["Recuperation douce", "Moment calme"],
+  "Formules solo et duo": ["Parfait en duo", "Occasion speciale"]
+};
+
+const needRecommendationMap = {
+  "mieux-dormir": {
+    intro: "Trois options si votre priorite est de relacher le systeme nerveux et de retrouver une sensation de calme le soir meme.",
+    items: [
+      {
+        title: "Californien",
+        soin: "Californien",
+        cabine: "Europe",
+        duration: "60 min",
+        price: "95 EUR",
+        reason: "Un massage enveloppant qui rassure le corps avant tout et aide a faire redescendre la charge mentale.",
+        tags: ["Mieux dormir", "Premiere visite"]
+      },
+      {
+        title: "Abhyanga",
+        soin: "Abhyanga",
+        cabine: "Bali",
+        duration: "75 min",
+        price: "125 EUR",
+        reason: "Huile chaude, rythme lent et sensation d'ancrage pour les semaines ou tout va trop vite.",
+        tags: ["Ancrage", "Chaleur"]
+      },
+      {
+        title: "Rituel Ayurvedique",
+        soin: "Rituel Ayurvedique",
+        cabine: "Bali",
+        duration: "1 h 30",
+        price: "145 EUR",
+        reason: "Une experience plus longue pour couper vraiment et laisser redescendre la tension accumulee.",
+        tags: ["Stress intense", "Rituel profond"]
+      }
+    ]
+  },
+  douleurs: {
+    intro: "Si votre objectif est surtout de delier le corps, voici les soins les plus utiles pour les tensions installees.",
+    items: [
+      {
+        title: "Shiatsu",
+        soin: "Shiatsu",
+        cabine: "Japon",
+        duration: "60 min",
+        price: "100 EUR",
+        reason: "Pressions ciblees et recentrage pour les nuques, epaules et dos sursollicites.",
+        tags: ["Tensions cervicales", "Focus precision"]
+      },
+      {
+        title: "Suedois",
+        soin: "Suedois",
+        cabine: "Europe",
+        duration: "60 min",
+        price: "100 EUR",
+        reason: "Tres adapte aux corps fatigues, sportifs ou restes trop longtemps dans la meme posture.",
+        tags: ["Recuperation", "Muscles fatigues"]
+      },
+      {
+        title: "Massage aux bambous",
+        soin: "Massage aux bambous",
+        cabine: "Bali",
+        duration: "60 min",
+        price: "115 EUR",
+        reason: "Quand les tensions sont deja bien installees et qu'il faut un travail plus profond.",
+        tags: ["Pression soutenue", "Jambes lourdes"]
+      }
+    ]
+  },
+  "lacher-prise": {
+    intro: "Quand vous avez surtout besoin de souffler, de couper avec l'exterieur et de retrouver une sensation de refuge.",
+    items: [
+      {
+        title: "Mauresque",
+        soin: "Mauresque",
+        cabine: "Mauresque",
+        duration: "75 min",
+        price: "120 EUR",
+        reason: "Chaleur, cocon et gestes enveloppants pour les jours ou vous voulez juste ralentir.",
+        tags: ["Besoin de cocon", "Lenteur"]
+      },
+      {
+        title: "Rituel Oriental",
+        soin: "Rituel Oriental",
+        cabine: "Mauresque",
+        duration: "1 h 45",
+        price: "165 EUR",
+        reason: "Le bon choix si vous voulez une vraie parenthese, seul ou a deux, avec une sensation de voyage.",
+        tags: ["Top cadeau", "Parfait en duo"]
+      },
+      {
+        title: "Spa privatif duo",
+        soin: "",
+        cabine: "Europe",
+        duration: "1 h a 2 h",
+        price: "100 a 170 EUR",
+        reason: "Une bulle plus intime pour faire une pause ensemble sans forcement choisir un rituel complet.",
+        tags: ["Moment a deux", "Decompression douce"],
+        format: "Duo",
+        note: "Je souhaite reserver le spa privatif duo"
+      }
+    ]
+  }
+};
+
 const phrasePairs = [
   ["Menu", "Menu"],
   ["Accueil", "Home"],
@@ -175,6 +310,233 @@ const i18n = {
     cabins_lead: "Each destination offers a unique ambiance, scent profile, and tailored treatment style."
   }
 };
+
+function clearChildren(node) {
+  while (node.firstChild) node.removeChild(node.firstChild);
+}
+
+function humanizeNeed(value) {
+  return String(value || "")
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function buildReservationUrl({ soin = "", cabine = "", format = "", need = "", source = "", note = "" } = {}) {
+  const params = new URLSearchParams();
+  if (soin) params.set("soin", soin);
+  if (cabine) params.set("cabine", cabine);
+  if (format) params.set("format", format);
+  if (need) params.set("need", need);
+  if (source) params.set("source", source);
+  if (note) params.set("note", note);
+  const search = params.toString();
+  return search ? `reservation.html?${search}` : "reservation.html";
+}
+
+function enhanceMenuLinks() {
+  document.querySelectorAll(".menu a").forEach((link) => {
+    if (link.dataset.menuEnhanced === "true") return;
+    const href = String(link.getAttribute("href") || "").split("#")[0];
+    const note = menuNotesByHref[href];
+    if (!note) return;
+    const label = link.textContent.trim();
+    clearChildren(link);
+    const wrap = document.createElement("span");
+    wrap.className = "menu-link-wrap";
+    const labelEl = document.createElement("span");
+    labelEl.className = "menu-label";
+    labelEl.textContent = label;
+    const noteEl = document.createElement("span");
+    noteEl.className = "menu-note";
+    noteEl.textContent = note;
+    wrap.appendChild(labelEl);
+    wrap.appendChild(noteEl);
+    link.appendChild(wrap);
+    link.dataset.menuEnhanced = "true";
+  });
+}
+
+function getCareCategoryMeta(card) {
+  const sectionId = card.closest("section")?.id || "";
+  if (sectionId === "visage") return { label: "Visage", icon: "drop" };
+  if (sectionId === "spa") return { label: "Solo / duo", icon: "users" };
+  if (sectionId === "rituels") return { label: "Rituel", icon: "spark" };
+  if (sectionId === "accessoires") return { label: "Chaleur", icon: "spark" };
+  return { label: "Corps", icon: "body" };
+}
+
+function decorateCareCards() {
+  const cards = document.querySelectorAll(
+    "#massages .price-card, #accessoires .price-card, #rituels .price-card, #visage .price-card, #spa .price-card"
+  );
+  if (cards.length === 0) return;
+
+  cards.forEach((card) => {
+    const title = card.querySelector("h3")?.textContent.trim() || "";
+    const metaText = card.querySelector(".small")?.textContent.trim() || "";
+    const smallEl = card.querySelector(".small");
+    if (smallEl && !card.querySelector(".care-meta")) {
+      const [duration = "", price = ""] = metaText.split(" - ").map((part) => part.trim());
+      const categoryMeta = getCareCategoryMeta(card);
+      const metaWrap = document.createElement("div");
+      metaWrap.className = "care-meta";
+
+      [
+        { text: duration, icon: "time" },
+        { text: price, icon: "price" },
+        { text: categoryMeta.label, icon: categoryMeta.icon }
+      ]
+        .filter((item) => item.text)
+        .forEach((item) => {
+          const pill = document.createElement("span");
+          pill.className = "meta-pill";
+          pill.dataset.icon = item.icon;
+          pill.textContent = item.text;
+          metaWrap.appendChild(pill);
+        });
+
+      smallEl.replaceWith(metaWrap);
+    }
+
+    if (!card.querySelector(".choice-tags") && careTagMap[title]) {
+      const tagsWrap = document.createElement("div");
+      tagsWrap.className = "choice-tags";
+      careTagMap[title].forEach((tag) => {
+        const chip = document.createElement("span");
+        chip.textContent = tag;
+        tagsWrap.appendChild(chip);
+      });
+      const anchor = card.querySelector(".small-note, .cta.small-cta, .text-link");
+      if (anchor) {
+        card.insertBefore(tagsWrap, anchor);
+      } else {
+        card.appendChild(tagsWrap);
+      }
+    }
+  });
+}
+
+function enhanceBookingLinks() {
+  const pageSource = (window.location.pathname.split("/").pop() || "site").replace(".html", "");
+  document.querySelectorAll("main a[href^='reservation.html'], .hero-content a[href^='reservation.html']").forEach((link) => {
+    const rawHref = link.getAttribute("href");
+    if (!rawHref) return;
+    const [path, rawSearch = ""] = rawHref.split("?");
+    if (path !== "reservation.html") return;
+
+    const params = new URLSearchParams(rawSearch);
+    if (!params.get("source")) {
+      const sectionId = link.closest("section")?.id || pageSource;
+      params.set("source", sectionId);
+    }
+
+    const article = link.closest("article");
+    if (!params.get("format") && article && /duo/i.test(article.textContent || "")) {
+      params.set("format", "Duo");
+    }
+
+    if (!params.get("note")) {
+      const firstTag = article?.querySelector(".choice-tags span");
+      if (firstTag) params.set("note", firstTag.textContent.trim());
+    }
+
+    const search = params.toString();
+    link.setAttribute("href", search ? `${path}?${search}` : path);
+  });
+}
+
+function renderNeedRecommendations(needKey) {
+  const root = document.querySelector("[data-need-configurator]");
+  const results = root ? root.querySelector("[data-need-results]") : null;
+  if (!root || !results) return;
+
+  const config = needRecommendationMap[needKey] || needRecommendationMap["mieux-dormir"];
+  clearChildren(results);
+
+  const intro = document.createElement("p");
+  intro.className = "small-note";
+  intro.textContent = config.intro;
+  results.appendChild(intro);
+
+  const grid = document.createElement("div");
+  grid.className = "configurator-grid";
+
+  config.items.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "configurator-card";
+
+    const title = document.createElement("h3");
+    title.textContent = item.title;
+    card.appendChild(title);
+
+    const meta = document.createElement("div");
+    meta.className = "care-meta";
+    [
+      { text: item.duration, icon: "time" },
+      { text: item.price, icon: "price" },
+      { text: item.soin ? "Soin recommande" : "Format duo", icon: item.soin ? "body" : "users" }
+    ].forEach((entry) => {
+      const pill = document.createElement("span");
+      pill.className = "meta-pill";
+      pill.dataset.icon = entry.icon;
+      pill.textContent = entry.text;
+      meta.appendChild(pill);
+    });
+    card.appendChild(meta);
+
+    const reason = document.createElement("p");
+    reason.textContent = item.reason;
+    card.appendChild(reason);
+
+    const tags = document.createElement("div");
+    tags.className = "choice-tags";
+    item.tags.forEach((tag) => {
+      const chip = document.createElement("span");
+      chip.textContent = tag;
+      tags.appendChild(chip);
+    });
+    card.appendChild(tags);
+
+    const cta = document.createElement("a");
+    cta.className = "cta small-cta";
+    cta.href = buildReservationUrl({
+      soin: item.soin,
+      cabine: item.cabine,
+      format: item.format,
+      need: needKey,
+      source: "configurateur",
+      note: item.note || item.tags[0]
+    });
+    cta.textContent = "Reserver ce soin";
+    card.appendChild(cta);
+
+    grid.appendChild(card);
+  });
+
+  results.appendChild(grid);
+}
+
+function initNeedConfigurator() {
+  const root = document.querySelector("[data-need-configurator]");
+  if (!root) return;
+  const buttons = root.querySelectorAll("[data-need]");
+  if (buttons.length === 0) return;
+
+  const activate = (needKey) => {
+    buttons.forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.need === needKey);
+    });
+    renderNeedRecommendations(needKey);
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => activate(button.dataset.need || "mieux-dormir"));
+  });
+
+  activate(buttons[0].dataset.need || "mieux-dormir");
+}
+
+enhanceMenuLinks();
 
 if (revealElements.length > 0) {
   const observer = new IntersectionObserver(
@@ -531,6 +893,10 @@ function applyReservationPrefillFromQuery() {
   const params = new URLSearchParams(window.location.search);
   const soin = params.get("soin");
   const cabine = params.get("cabine");
+  const format = params.get("format");
+  const need = params.get("need");
+  const note = params.get("note");
+  const source = params.get("source");
 
   if (soin) {
     const soinSelect = form.querySelector("select[name='soin']");
@@ -546,13 +912,44 @@ function applyReservationPrefillFromQuery() {
       const exists = Array.from(cabinSelect.options).some((opt) => opt.value === cabine || opt.text === cabine);
       if (exists) cabinSelect.value = cabine;
     }
-    const message = form.querySelector("textarea[name='message']");
-    if (message && !message.value.trim()) {
-      message.value = `Cabine souhaitee: ${cabine}`;
+  }
+
+  if (format) {
+    const formatSelect = form.querySelector("select[name='format']");
+    if (formatSelect) {
+      const exists = Array.from(formatSelect.options).some((opt) => opt.value === format || opt.text === format);
+      if (exists) formatSelect.value = format;
     }
   }
 
-  if (soin || cabine) {
+  const message = form.querySelector("textarea[name='message']");
+  if (message && !message.value.trim()) {
+    const fragments = [];
+    if (cabine) fragments.push(`Cabine souhaitee: ${cabine}`);
+    if (need) fragments.push(`Besoin du moment: ${humanizeNeed(need)}`);
+    if (note) fragments.push(note);
+    if (source) fragments.push(`Source: ${source.replace(/-/g, " ")}`);
+    if (fragments.length > 0) {
+      message.value = fragments.join(" | ");
+    }
+  }
+
+  const context = document.querySelector("[data-reservation-context]");
+  if (context) {
+    const summaryBits = [];
+    if (soin) summaryBits.push(soin);
+    if (cabine) summaryBits.push(`cabine ${cabine}`);
+    if (format) summaryBits.push(`format ${format}`);
+    if (need) summaryBits.push(`besoin ${humanizeNeed(need)}`);
+    if (summaryBits.length > 0) {
+      context.hidden = false;
+      context.textContent = `Votre demande est deja pre-remplie: ${summaryBits.join(" - ")}. Ajustez librement si besoin.`;
+    } else {
+      context.hidden = true;
+    }
+  }
+
+  if (soin || cabine || format || need) {
     refreshAvailability();
   }
 }
@@ -573,6 +970,9 @@ async function initReservationPage() {
 }
 
 initReservationPage();
+decorateCareCards();
+initNeedConfigurator();
+enhanceBookingLinks();
 
 function renderGameProfile(profile) {
   const pointsEl = document.querySelector("#gamePoints");
