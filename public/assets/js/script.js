@@ -702,6 +702,273 @@ function getStoredValue(key) {
   }
 }
 
+const LOCAL_KEYS = {
+  clientProfiles: "letemple_client_profiles",
+  clientSession: "letemple_client_session",
+  employeeSession: "letemple_employee_session",
+  reservations: "letemple_reservations",
+  stockWeeks: "letemple_stock_weeks",
+  contacts: "letemple_contact_messages"
+};
+
+const CABIN_CAPACITY = {
+  Japon: 2,
+  Bali: 2,
+  Europe: 3,
+  Thailande: 2,
+  Mauresque: 2
+};
+
+// Modifier ici les identifiants et le profil du compte client de test.
+const DEMO_CLIENT_PROFILE = {
+  email: "test.client@le-temple.fr",
+  password: "Test1234!",
+  prenom: "Lylian",
+  nom: "Lylian Temple",
+  mainNeed: "mieux-dormir"
+};
+
+// Modifier ici les identifiants du compte employe de test.
+const DEMO_EMPLOYEE_PROFILE = {
+  email: "employe@le-temple.fr",
+  password: "Employe123!"
+};
+
+// Modifier ici les reservations simulees affichees cote employe.
+function buildSeedReservations() {
+  const today = new Date();
+  const base = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const plusDays = (days) => {
+    const copy = new Date(base);
+    copy.setDate(copy.getDate() + days);
+    return copy.toISOString().slice(0, 10);
+  };
+
+  return [
+    {
+      id: "auto-1",
+      source: "auto",
+      origin: "site",
+      nom: "Camille Durand",
+      email: "camille@example.com",
+      soin: "Californien",
+      cabine: "Europe",
+      format: "Solo",
+      date: plusDays(1),
+      heure: "10:00",
+      commentaire: "Cliente premiere visite",
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: "auto-2",
+      source: "auto",
+      origin: "site",
+      nom: "Nora et Mehdi",
+      email: "nora@example.com",
+      soin: "Rituel Oriental",
+      cabine: "Mauresque",
+      format: "Duo",
+      date: plusDays(2),
+      heure: "18:00",
+      commentaire: "Reservation duo cadeau",
+      createdAt: new Date().toISOString()
+    },
+    {
+      id: "auto-3",
+      source: "auto",
+      origin: "site",
+      nom: "Julien Martin",
+      email: "julien@example.com",
+      soin: "Shiatsu",
+      cabine: "Japon",
+      format: "Solo",
+      date: plusDays(3),
+      heure: "14:00",
+      commentaire: "Besoin de recentrage",
+      createdAt: new Date().toISOString()
+    }
+  ];
+}
+
+// Modifier ici les donnees de stock semaine par defaut.
+function buildSeedStockWeeks() {
+  const currentWeek = getWeekKeyFromDate(new Date());
+  const nextWeek = shiftWeekKey(currentWeek, 1);
+
+  const createRows = () => [
+    { id: "huile-neutre", product: "Huile neutre", initial: 12, used: 4 },
+    { id: "serviettes", product: "Serviettes epaisses", initial: 40, used: 12 },
+    { id: "pochons", product: "Pochons", initial: 16, used: 5 },
+    { id: "bougies", product: "Bougies massage", initial: 14, used: 3 }
+  ];
+
+  return {
+    [currentWeek]: createRows(),
+    [nextWeek]: createRows()
+  };
+}
+
+function readJsonStorage(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function writeJsonStorage(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function createId(prefix) {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function getLocalDate(value) {
+  const [year, month, day] = String(value).split("-").map(Number);
+  return new Date(year, (month || 1) - 1, day || 1);
+}
+
+function getStartOfWeek(dateInput) {
+  const date = new Date(dateInput.getFullYear(), dateInput.getMonth(), dateInput.getDate());
+  const day = (date.getDay() + 6) % 7;
+  date.setDate(date.getDate() - day);
+  return date;
+}
+
+function getWeekNumber(dateInput) {
+  const date = getStartOfWeek(dateInput);
+  const yearStart = getStartOfWeek(new Date(date.getFullYear(), 0, 4));
+  return Math.round((date - yearStart) / 604800000) + 1;
+}
+
+function getWeekKeyFromDate(dateInput) {
+  const date = getStartOfWeek(dateInput instanceof Date ? dateInput : getLocalDate(dateInput));
+  const week = String(getWeekNumber(date)).padStart(2, "0");
+  return `${date.getFullYear()}-W${week}`;
+}
+
+function getDateFromWeekKey(weekKey) {
+  const match = String(weekKey).match(/^(\d{4})-W(\d{2})$/);
+  if (!match) return getStartOfWeek(new Date());
+  const year = Number(match[1]);
+  const week = Number(match[2]);
+  const januaryFourth = new Date(year, 0, 4);
+  const start = getStartOfWeek(januaryFourth);
+  start.setDate(start.getDate() + (week - 1) * 7);
+  return start;
+}
+
+function shiftWeekKey(weekKey, delta) {
+  const date = getDateFromWeekKey(weekKey);
+  date.setDate(date.getDate() + delta * 7);
+  return getWeekKeyFromDate(date);
+}
+
+function formatWeekLabel(weekKey) {
+  const start = getDateFromWeekKey(weekKey);
+  const end = new Date(start);
+  end.setDate(end.getDate() + 6);
+  const weekNumber = String(weekKey).split("W")[1] || "";
+  return `Semaine ${weekNumber} - ${start.toLocaleDateString("fr-FR")} au ${end.toLocaleDateString("fr-FR")}`;
+}
+
+function getClientProfiles() {
+  return readJsonStorage(LOCAL_KEYS.clientProfiles, []);
+}
+
+function saveClientProfiles(profiles) {
+  writeJsonStorage(LOCAL_KEYS.clientProfiles, profiles);
+}
+
+function getCurrentClient() {
+  const sessionEmail = getStoredValue(LOCAL_KEYS.clientSession);
+  if (!sessionEmail) return null;
+  return getClientProfiles().find((profile) => profile.email === sessionEmail) || null;
+}
+
+function setCurrentClient(email) {
+  setStoredValue(LOCAL_KEYS.clientSession, email);
+}
+
+function clearCurrentClient() {
+  try {
+    localStorage.removeItem(LOCAL_KEYS.clientSession);
+  } catch {
+    // ignore storage errors
+  }
+}
+
+function getEmployeeSession() {
+  return getStoredValue(LOCAL_KEYS.employeeSession) === DEMO_EMPLOYEE_PROFILE.email;
+}
+
+function setEmployeeSession(active) {
+  if (active) {
+    setStoredValue(LOCAL_KEYS.employeeSession, DEMO_EMPLOYEE_PROFILE.email);
+  } else {
+    try {
+      localStorage.removeItem(LOCAL_KEYS.employeeSession);
+    } catch {
+      // ignore storage errors
+    }
+  }
+}
+
+function getReservations() {
+  return readJsonStorage(LOCAL_KEYS.reservations, []);
+}
+
+function saveReservations(reservations) {
+  writeJsonStorage(LOCAL_KEYS.reservations, reservations);
+}
+
+function getStockWeeks() {
+  return readJsonStorage(LOCAL_KEYS.stockWeeks, {});
+}
+
+function saveStockWeeks(stockWeeks) {
+  writeJsonStorage(LOCAL_KEYS.stockWeeks, stockWeeks);
+}
+
+function ensureWeekStock(weekKey) {
+  const stockWeeks = getStockWeeks();
+  if (!stockWeeks[weekKey]) {
+    stockWeeks[weekKey] = [
+      { id: "huile-neutre", product: "Huile neutre", initial: 12, used: 0 },
+      { id: "serviettes", product: "Serviettes epaisses", initial: 40, used: 0 },
+      { id: "pochons", product: "Pochons", initial: 16, used: 0 },
+      { id: "bougies", product: "Bougies massage", initial: 14, used: 0 }
+    ];
+    saveStockWeeks(stockWeeks);
+  }
+  return stockWeeks[weekKey];
+}
+
+function ensureLocalDemoData() {
+  const profiles = getClientProfiles();
+  if (!profiles.some((profile) => profile.email === DEMO_CLIENT_PROFILE.email)) {
+    profiles.push({ ...DEMO_CLIENT_PROFILE });
+    saveClientProfiles(profiles);
+  }
+
+  if (getReservations().length === 0) {
+    saveReservations(buildSeedReservations());
+  }
+
+  const stockWeeks = getStockWeeks();
+  if (Object.keys(stockWeeks).length === 0) {
+    saveStockWeeks(buildSeedStockWeeks());
+  }
+}
+
+ensureLocalDemoData();
+
 function getRecommendedCabinForSoin(soin) {
   return soinCabinMap[String(soin || "").trim()] || "";
 }
@@ -751,43 +1018,212 @@ function syncCabinWithSelectedSoin(force = false) {
   updateReservationCabinHint(recommendedCabin);
 }
 
-async function postJson(endpoint, payload) {
-  const res = await fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || "Une erreur est survenue.");
-  return data;
+function saveClientProfile(profile) {
+  const profiles = getClientProfiles();
+  const nextProfiles = profiles.filter((item) => item.email !== profile.email);
+  nextProfiles.push(profile);
+  saveClientProfiles(nextProfiles);
 }
 
-document.querySelectorAll(".api-form").forEach((form) => {
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const endpoint = form.dataset.endpoint;
-    if (!endpoint) return;
-    const submitButton = form.querySelector("button[type='submit']");
-    if (submitButton) submitButton.disabled = true;
-    setStatus(form, "Envoi en cours...");
-    try {
-      const payload = formDataAsObject(form);
-      const data = await postJson(endpoint, payload);
-      setStatus(form, data.message || "Envoye.");
-      if (!endpoint.includes("/auth/login")) form.reset();
-      if (endpoint.includes("/auth/login") && data.token) {
-        setStoredValue("letemple_token", data.token);
-        setStoredValue("letemple_user", data.nom || "");
-      }
-    } catch (error) {
-      setStatus(form, error.message, true);
-    } finally {
-      if (submitButton) submitButton.disabled = false;
+function updateClientGreetingInNavigation() {
+  const client = getCurrentClient();
+  document.querySelectorAll(".menu a[href='connexion.html']").forEach((link) => {
+    const labelEl = link.querySelector(".menu-label");
+    const noteEl = link.querySelector(".menu-note");
+    const label = client ? `Bonjour ${client.prenom}` : "Connexion";
+    if (labelEl) {
+      labelEl.textContent = label;
+    } else {
+      link.textContent = label;
+    }
+    if (noteEl) {
+      noteEl.textContent = client ? "Compte client actif" : "Compte et fidelite";
     }
   });
-});
+}
 
-async function refreshAvailability() {
+function prefillReservationFormFromClient() {
+  const client = getCurrentClient();
+  const form = document.querySelector(".api-form[data-endpoint='/api/reservations']");
+  if (!client || !form) return;
+  const nameInput = form.querySelector("input[name='nom']");
+  const emailInput = form.querySelector("input[name='email']");
+  if (nameInput && !nameInput.value.trim()) nameInput.value = client.nom;
+  if (emailInput && !emailInput.value.trim()) emailInput.value = client.email;
+}
+
+function handleClientLogin(payload) {
+  const email = String(payload.email || "").trim().toLowerCase();
+  const password = String(payload.password || "").trim();
+  const profile = getClientProfiles().find((item) => item.email === email);
+  if (!profile || profile.password !== password) {
+    throw new Error("Identifiants client invalides. Utilisez le compte test affiche sur la page.");
+  }
+  setCurrentClient(profile.email);
+  updateClientGreetingInNavigation();
+  return profile;
+}
+
+function handleClientRegister(payload) {
+  const email = String(payload.email || "").trim().toLowerCase();
+  const password = String(payload.password || "").trim();
+  const nom = String(payload.nom || "").trim();
+  const mainNeed = String(payload.mainNeed || "").trim();
+  if (!email || !password || !nom || !mainNeed) {
+    throw new Error("Tous les champs du compte client sont requis.");
+  }
+  const profiles = getClientProfiles();
+  if (profiles.some((item) => item.email === email)) {
+    throw new Error("Un compte existe deja avec cet email.");
+  }
+  const profile = {
+    email,
+    password,
+    nom,
+    prenom: nom.split(/\s+/)[0] || nom,
+    mainNeed
+  };
+  profiles.push(profile);
+  saveClientProfiles(profiles);
+  setCurrentClient(email);
+  updateClientGreetingInNavigation();
+  return profile;
+}
+
+function handleContactMessage(payload) {
+  const contacts = readJsonStorage(LOCAL_KEYS.contacts, []);
+  contacts.push({
+    id: createId("contact"),
+    createdAt: new Date().toISOString(),
+    nom: payload.nom || "",
+    sujet: payload.sujet || "",
+    email: payload.email || "",
+    message: payload.message || ""
+  });
+  writeJsonStorage(LOCAL_KEYS.contacts, contacts);
+}
+
+function getReservationUnits(reservation) {
+  return String(reservation.format || "").toLowerCase() === "duo" ? 2 : 1;
+}
+
+function getReservationSlots() {
+  return [
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
+    "21:00"
+  ];
+}
+
+function handleReservationSubmission(payload) {
+  const reservations = getReservations();
+  const reservation = {
+    id: createId("reservation"),
+    source: "auto",
+    origin: "site",
+    nom: String(payload.nom || "").trim(),
+    email: String(payload.email || "").trim().toLowerCase(),
+    telephone: String(payload.telephone || "").trim(),
+    soin: String(payload.soin || "").trim(),
+    cabine: String(payload.cabine || "").trim(),
+    format: String(payload.format || "").trim() || "Solo",
+    date: String(payload.date || "").trim(),
+    heure: String(payload.heure || "").trim(),
+    commentaire: String(payload.message || "").trim(),
+    createdAt: new Date().toISOString()
+  };
+
+  if (!reservation.nom || !reservation.email || !reservation.soin || !reservation.cabine || !reservation.date || !reservation.heure) {
+    throw new Error("Merci de completer nom, email, soin, cabine, date et heure.");
+  }
+
+  reservations.push(reservation);
+  saveReservations(reservations);
+  return reservation;
+}
+
+function handleLocalFormSubmit(form, payload) {
+  const endpoint = form.dataset.endpoint;
+  if (endpoint === "/api/auth/login") {
+    const profile = handleClientLogin(payload);
+    return {
+      message: `Connexion reussie. Bonjour ${profile.prenom}.`,
+      onSuccess() {
+        renderPersonalizedFaq();
+        setTimeout(() => {
+          window.location.href = "soins.html#faq-conseils";
+        }, 500);
+      }
+    };
+  }
+
+  if (endpoint === "/api/auth/register") {
+    const profile = handleClientRegister(payload);
+    return {
+      message: `Compte cree. Bonjour ${profile.prenom}.`,
+      onSuccess() {
+        renderPersonalizedFaq();
+        setTimeout(() => {
+          window.location.href = "soins.html#faq-conseils";
+        }, 500);
+      }
+    };
+  }
+
+  if (endpoint === "/api/contacts") {
+    handleContactMessage(payload);
+    return { message: "Message enregistre. Nous vous recontactons rapidement." };
+  }
+
+  if (endpoint === "/api/reservations") {
+    const reservation = handleReservationSubmission(payload);
+    return {
+      message: `Reservation enregistree pour ${reservation.nom} le ${reservation.date} a ${reservation.heure}.`,
+      onSuccess() {
+        refreshAvailability();
+        prefillReservationFormFromClient();
+      }
+    };
+  }
+
+  throw new Error("Formulaire non pris en charge dans la demo locale.");
+}
+
+function initApiForms() {
+  document.querySelectorAll(".api-form").forEach((form) => {
+    if (form.dataset.localBound === "true") return;
+    form.dataset.localBound = "true";
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const submitButton = form.querySelector("button[type='submit']");
+      if (submitButton) submitButton.disabled = true;
+      setStatus(form, "Envoi en cours...");
+      try {
+        const payload = formDataAsObject(form);
+        const result = handleLocalFormSubmit(form, payload);
+        setStatus(form, result.message || "Envoye.");
+        const endpoint = form.dataset.endpoint || "";
+        if (!endpoint.includes("/auth/login")) form.reset();
+        if (typeof result.onSuccess === "function") result.onSuccess();
+      } catch (error) {
+        setStatus(form, error.message, true);
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
+    });
+  });
+}
+
+function refreshAvailability() {
   const dateInput = document.querySelector("input[name='date']");
   const cabinSelect = document.querySelector("#cabineSelect");
   const timeSelect = document.querySelector("#heureSelect");
@@ -808,39 +1244,44 @@ async function refreshAvailability() {
     return;
   }
 
-  availabilityRoot.textContent = "Chargement des creneaux...";
-  try {
-    const response = await fetch(
-      `/api/availability?date=${encodeURIComponent(selectedDate)}&cabine=${encodeURIComponent(selectedCabin)}`
-    );
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || "Impossible de charger les creneaux.");
+  const reservations = getReservations().filter((item) => item.date === selectedDate && item.cabine === selectedCabin);
+  const max = CABIN_CAPACITY[selectedCabin] || 2;
+  const slots = getReservationSlots().map((time) => {
+    const reserved = reservations
+      .filter((item) => item.heure === time)
+      .reduce((total, item) => total + getReservationUnits(item), 0);
+    return {
+      time,
+      max,
+      reserved,
+      remaining: Math.max(max - reserved, 0)
+    };
+  });
 
-    timeSelect.innerHTML = "<option value=''>Choisir un creneau</option>";
-    availabilityRoot.innerHTML = `<h3>Creneaux restants - ${selectedCabin}</h3>`;
+  timeSelect.innerHTML = "<option value=''>Choisir un creneau</option>";
+  clearChildren(availabilityRoot);
 
-    const list = document.createElement("div");
-    list.className = "slot-grid";
+  const title = document.createElement("h3");
+  title.textContent = `Creneaux restants - ${selectedCabin}`;
+  availabilityRoot.appendChild(title);
 
-    data.slots.forEach((slot) => {
-      const option = document.createElement("option");
-      option.value = slot.time;
-      option.textContent = `${slot.time} (${slot.remaining} restantes)`;
-      option.disabled = slot.remaining <= 0;
-      timeSelect.appendChild(option);
+  const list = document.createElement("div");
+  list.className = "slot-grid";
 
-      const chip = document.createElement("span");
-      chip.className = `slot ${slot.remaining <= 0 ? "full" : "open"}`;
-      chip.textContent = `${slot.time} - ${slot.remaining}/${slot.max}`;
-      list.appendChild(chip);
-    });
+  slots.forEach((slot) => {
+    const option = document.createElement("option");
+    option.value = slot.time;
+    option.textContent = `${slot.time} (${slot.remaining} restantes)`;
+    option.disabled = slot.remaining <= 0;
+    timeSelect.appendChild(option);
 
-    availabilityRoot.appendChild(list);
-  } catch (error) {
-    timeSelect.innerHTML = "<option value=''>Creneaux indisponibles</option>";
-    availabilityRoot.innerHTML =
-      "<p class='form-status error'>Impossible de charger les creneaux. Verifiez que le site est lance via <strong>npm start</strong>.</p>";
-  }
+    const chip = document.createElement("span");
+    chip.className = `slot ${slot.remaining <= 0 ? "full" : "open"}`;
+    chip.textContent = `${slot.time} - ${slot.remaining}/${slot.max}`;
+    list.appendChild(chip);
+  });
+
+  availabilityRoot.appendChild(list);
 }
 
 function initReservationDate() {
@@ -856,35 +1297,8 @@ function initReservationDate() {
   refreshAvailability();
 }
 
-async function loadCatalogOptions() {
-  const soinSelect = document.querySelector("select[name='soin']");
-  const cabinSelect = document.querySelector("select[name='cabine']");
-  if (!soinSelect || !cabinSelect) return;
-  try {
-    const res = await fetch("/api/meta/catalog");
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok || !data.ok) return;
-    const currentSoin = soinSelect.value;
-    const currentCabin = cabinSelect.value;
-    soinSelect.innerHTML = "<option value=''>Choisir un soin</option>";
-    cabinSelect.innerHTML = "<option value=''>Choisir une cabine</option>";
-    data.soins.forEach((s) => {
-      const opt = document.createElement("option");
-      opt.value = s;
-      opt.textContent = s;
-      soinSelect.appendChild(opt);
-    });
-    data.cabins.forEach((c) => {
-      const opt = document.createElement("option");
-      opt.value = c;
-      opt.textContent = c;
-      cabinSelect.appendChild(opt);
-    });
-    if (currentSoin) soinSelect.value = currentSoin;
-    if (currentCabin) cabinSelect.value = currentCabin;
-  } catch {
-    // keep static options fallback
-  }
+function loadCatalogOptions() {
+  // Les options sont deja presentes en dur dans le HTML pour cette demo locale.
 }
 
 function applyReservationPrefillFromQuery() {
@@ -954,8 +1368,8 @@ function applyReservationPrefillFromQuery() {
   }
 }
 
-async function initReservationPage() {
-  await loadCatalogOptions();
+function initReservationPage() {
+  loadCatalogOptions();
   applyReservationPrefillFromQuery();
   const reservationForm = document.querySelector(".api-form[data-endpoint='/api/reservations']");
   const soinSelect = reservationForm ? reservationForm.querySelector("select[name='soin']") : null;
@@ -965,14 +1379,189 @@ async function initReservationPage() {
       refreshAvailability();
     });
   }
+  prefillReservationFormFromClient();
   syncCabinWithSelectedSoin(false);
   initReservationDate();
 }
 
+function buildFaqItems() {
+  return [
+    {
+      question: "Quel soin choisir si je veux mieux dormir ?",
+      answer: "Si votre besoin principal est de faire redescendre la charge mentale, nous vous orientons plutot vers des soins enveloppants et lents.",
+      links: [
+        { label: "Californien", href: "#soin-californien" },
+        { label: "Abhyanga", href: "#soin-abhyanga" },
+        { label: "Rituel Ayurvedique", href: "#soin-rituel-ayurvedique" }
+      ]
+    },
+    {
+      question: "J'ai des douleurs ou des tensions dans le dos, la nuque ou les jambes.",
+      answer: "Dans ce cas, les soins les plus structures ou profonds sont souvent les plus adaptes, surtout si la tension est deja installee.",
+      links: [
+        { label: "Shiatsu", href: "#soin-shiatsu" },
+        { label: "Suedois", href: "#massages" },
+        { label: "Massage aux bambous", href: "#accessoires" }
+      ]
+    },
+    {
+      question: "Je veux surtout lacher prise sans reflechir longtemps.",
+      answer: "Si vous cherchez une sensation de refuge immediate, misez sur les soins tres enveloppants ou les rituels longs.",
+      links: [
+        { label: "Mauresque", href: "#soin-mauresque" },
+        { label: "Rituel Oriental", href: "#soin-rituel-oriental" },
+        { label: "Spa privatif", href: "#spa" }
+      ]
+    },
+    {
+      question: "Quel soin choisir pour une premiere visite ?",
+      answer: "Nous recommandons un format simple, lisible et rassurant, avec une pression modulable et une ambiance douce.",
+      links: [
+        { label: "Californien", href: "#soin-californien" },
+        { label: "Hydratant visage", href: "#soin-hydratant" },
+        { label: "Abhyanga", href: "#soin-abhyanga" }
+      ]
+    },
+    {
+      question: "Je veux un soin visage qui se sente vraiment utile.",
+      answer: "Selon que vous cherchiez de l'eclat, du confort ou un effet plus tonique, nous ne proposons pas les memes options.",
+      links: [
+        { label: "Hydratant", href: "#soin-hydratant" },
+        { label: "Purifiant", href: "#visage" },
+        { label: "Kobido", href: "#soin-kobido" }
+      ]
+    },
+    {
+      question: "Je veux reserver a deux ou offrir un soin.",
+      answer: "Les formats duo et les rituels longs sont les plus lisibles pour vivre ou offrir une vraie parenthese ensemble.",
+      links: [
+        { label: "Rituel Oriental", href: "#soin-rituel-oriental" },
+        { label: "Spa privatif", href: "#spa" },
+        { label: "Rituel Balinais", href: "#rituels" }
+      ]
+    }
+  ];
+}
+
+function renderPersonalizedFaq() {
+  const root = document.querySelector("[data-personalized-faq]");
+  if (!root) return;
+  clearChildren(root);
+
+  const client = getCurrentClient();
+  if (!client) {
+    const locked = document.createElement("div");
+    locked.className = "faq-locked panel";
+    const message = document.createElement("p");
+    message.textContent = "Connectez-vous ou creez un compte pour recevoir des conseils personnalises.";
+    locked.appendChild(message);
+    const actions = document.createElement("div");
+    actions.className = "section-actions";
+    const loginLink = document.createElement("a");
+    loginLink.className = "cta small-cta";
+    loginLink.href = "connexion.html";
+    loginLink.textContent = "Me connecter";
+    const registerLink = document.createElement("a");
+    registerLink.className = "text-link";
+    registerLink.href = "connexion.html#register-account";
+    registerLink.textContent = "Creer un compte";
+    actions.appendChild(loginLink);
+    actions.appendChild(registerLink);
+    locked.appendChild(actions);
+    root.appendChild(locked);
+    return;
+  }
+
+  const recommendationBox = document.createElement("div");
+  recommendationBox.className = "recommendation-hero";
+  const title = document.createElement("h3");
+  title.textContent = `Bonjour ${client.prenom}, voici les soins que nous vous recommandons aujourd'hui`;
+  const description = document.createElement("p");
+  description.textContent = `Besoin principal enregistre dans votre profil : ${humanizeNeed(client.mainNeed)}.`;
+  recommendationBox.appendChild(title);
+  recommendationBox.appendChild(description);
+
+  const cards = document.createElement("div");
+  cards.className = "configurator-grid";
+  const recommendations = (needRecommendationMap[client.mainNeed] || needRecommendationMap["mieux-dormir"]).items.slice(0, 3);
+  recommendations.forEach((item) => {
+    const card = document.createElement("article");
+    card.className = "configurator-card";
+    const cardTitle = document.createElement("h3");
+    cardTitle.textContent = item.title;
+    const reason = document.createElement("p");
+    reason.textContent = item.reason;
+    const actions = document.createElement("div");
+    actions.className = "section-actions";
+    const details = document.createElement("a");
+    details.className = "text-link";
+    details.href = item.soin
+      ? `#soin-${item.soin.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-")}`
+      : "#spa";
+    details.textContent = "Voir ce soin";
+    const book = document.createElement("a");
+    book.className = "cta small-cta";
+    book.href = buildReservationUrl({
+      soin: item.soin,
+      cabine: item.cabine,
+      format: item.format,
+      need: client.mainNeed,
+      source: "faq-personnalisee",
+      note: item.tags[0]
+    });
+    book.textContent = "Reserver";
+    actions.appendChild(details);
+    actions.appendChild(book);
+    card.appendChild(cardTitle);
+    card.appendChild(reason);
+    card.appendChild(actions);
+    cards.appendChild(card);
+  });
+  recommendationBox.appendChild(cards);
+  root.appendChild(recommendationBox);
+
+  const accordionStack = document.createElement("div");
+  accordionStack.className = "accordion-stack";
+
+  buildFaqItems().forEach((item, index) => {
+    const detail = document.createElement("details");
+    detail.className = "faq-accordion";
+    if (index === 0) detail.open = true;
+
+    const summary = document.createElement("summary");
+    summary.textContent = item.question;
+    detail.appendChild(summary);
+
+    const body = document.createElement("div");
+    body.className = "accordion-body";
+    const text = document.createElement("p");
+    text.textContent = item.answer;
+    body.appendChild(text);
+
+    const links = document.createElement("div");
+    links.className = "section-actions";
+    item.links.forEach((linkData) => {
+      const anchor = document.createElement("a");
+      anchor.className = "text-link";
+      anchor.href = linkData.href;
+      anchor.textContent = `Voir ce soin : ${linkData.label}`;
+      links.appendChild(anchor);
+    });
+    body.appendChild(links);
+    detail.appendChild(body);
+    accordionStack.appendChild(detail);
+  });
+
+  root.appendChild(accordionStack);
+}
+
+initApiForms();
 initReservationPage();
 decorateCareCards();
 initNeedConfigurator();
 enhanceBookingLinks();
+updateClientGreetingInNavigation();
+renderPersonalizedFaq();
 
 function renderGameProfile(profile) {
   const pointsEl = document.querySelector("#gamePoints");
@@ -1068,293 +1657,303 @@ function renderFooterYear() {
 
 renderFooterYear();
 
-async function initEmployeeArea() {
+function initEmployeeArea() {
   const loginForm = document.querySelector("#employeeLoginForm");
   if (!loginForm) return;
 
-  const codeInput = document.querySelector("#employeeCode");
+  const loginBox = document.querySelector("#employeeLoginBox");
+  const emailInput = document.querySelector("#employeeEmail");
+  const passwordInput = document.querySelector("#employeePassword");
   const statusEl = document.querySelector("#employeeStatus");
   const appSection = document.querySelector("#employeeApp");
-  const stockSection = document.querySelector("#employeeStockSection");
-  const notesSection = document.querySelector("#employeeNotesSection");
-  const planningBody = document.querySelector("#planningTable tbody");
-  const demandesBody = document.querySelector("#demandesTable tbody");
-  const stocksBody = document.querySelector("#stocksTable tbody");
-  const stocksStatus = document.querySelector("#stocksStatus");
-  const stockAddForm = document.querySelector("#stockAddForm");
-  const stockNameInput = document.querySelector("#stockNameInput");
-  const stockQtyInput = document.querySelector("#stockQtyInput");
-  const stockUnitInput = document.querySelector("#stockUnitInput");
-  const notesList = document.querySelector("#planningNotesList");
-  const noteForm = document.querySelector("#planningNoteForm");
-  const noteInput = document.querySelector("#planningNoteInput");
   const logoutBtn = document.querySelector("#employeeLogoutBtn");
+  const welcomeEl = document.querySelector("#employeeWelcome");
+  const sessionMetaEl = document.querySelector("#employeeSessionMeta");
+  const scheduleBody = document.querySelector("#employeeScheduleTable tbody");
+  const autoReservationsList = document.querySelector("#autoReservationsList");
+  const manualReservationsList = document.querySelector("#manualReservationsList");
+  const manualReservationForm = document.querySelector("#manualReservationForm");
+  const manualReservationStatus = document.querySelector("#manualReservationStatus");
+  const stockWeekTableBody = document.querySelector("#stockWeekTable tbody");
+  const stocksStatus = document.querySelector("#stocksStatus");
+  const planningWeekLabel = document.querySelector("#planningWeekLabel");
+  const stockWeekLabel = document.querySelector("#stockWeekLabel");
+  const planningPrevWeekBtn = document.querySelector("#planningPrevWeekBtn");
+  const planningNextWeekBtn = document.querySelector("#planningNextWeekBtn");
+  const stockPrevWeekBtn = document.querySelector("#stockPrevWeekBtn");
+  const stockNextWeekBtn = document.querySelector("#stockNextWeekBtn");
+  const tabButtons = document.querySelectorAll("[data-tab-target]");
+  const tabPanels = document.querySelectorAll("[data-tab-panel]");
 
-  let employeeActive = false;
-  const EMPLOYEE_IDLE_MS = 5 * 60 * 1000;
-  let idleTimer = null;
+  let planningWeekKey = getWeekKeyFromDate(new Date());
+  let stockWeekKey = getWeekKeyFromDate(new Date());
 
-  function setEmployeeStatus(text, error = false) {
+  function setEmployeeStatus(text, isError = false) {
     if (!statusEl) return;
     statusEl.textContent = text;
-    statusEl.classList.toggle("error", error);
+    statusEl.classList.toggle("error", isError);
   }
 
   function setEmployeeVisible(visible) {
+    if (loginBox) loginBox.hidden = visible;
     if (appSection) appSection.hidden = !visible;
-    if (stockSection) stockSection.hidden = !visible;
-    if (notesSection) notesSection.hidden = !visible;
   }
 
-  function clearEmployeeSession(message) {
-    employeeActive = false;
-    setEmployeeVisible(false);
-    if (idleTimer) {
-      clearTimeout(idleTimer);
-      idleTimer = null;
+  function sortReservations(rows) {
+    return [...rows].sort((left, right) => {
+      const leftValue = `${left.date} ${left.heure}`;
+      const rightValue = `${right.date} ${right.heure}`;
+      return leftValue.localeCompare(rightValue);
+    });
+  }
+
+  function getReservationsForWeek(weekKey) {
+    return sortReservations(getReservations().filter((item) => getWeekKeyFromDate(item.date) === weekKey));
+  }
+
+  function getSourceLabel(item) {
+    return item.source === "manual" ? "Manuelle" : "Auto";
+  }
+
+  function renderReservationStream(target, rows) {
+    if (!target) return;
+    clearChildren(target);
+    if (rows.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "small-note";
+      empty.textContent = "Aucune reservation sur cette semaine.";
+      target.appendChild(empty);
+      return;
     }
-    if (message) setEmployeeStatus(message, true);
+    rows.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = `reservation-card ${item.source === "manual" ? "manual" : "auto"}`;
+
+      const head = document.createElement("div");
+      head.className = "reservation-card-head";
+      const title = document.createElement("strong");
+      title.textContent = `${item.nom} - ${item.soin}`;
+      const badge = document.createElement("span");
+      badge.className = `source-badge ${item.source === "manual" ? "manual" : "auto"}`;
+      badge.textContent = getSourceLabel(item);
+      head.appendChild(title);
+      head.appendChild(badge);
+
+      const meta = document.createElement("p");
+      meta.className = "small-note";
+      meta.textContent = `${new Date(item.date).toLocaleDateString("fr-FR")} a ${item.heure} - cabine ${item.cabine}`;
+
+      card.appendChild(head);
+      card.appendChild(meta);
+
+      if (item.commentaire) {
+        const note = document.createElement("p");
+        note.textContent = item.commentaire;
+        card.appendChild(note);
+      }
+
+      target.appendChild(card);
+    });
   }
 
-  function resetIdleTimer() {
-    if (!employeeActive) return;
-    if (idleTimer) clearTimeout(idleTimer);
-    idleTimer = setTimeout(() => {
-      clearEmployeeSession("Session expiree (inactivite).");
-      fetch("/api/employee/logout", {
-        method: "POST"
-      }).catch(() => {});
-    }, EMPLOYEE_IDLE_MS);
+  function renderSchedule() {
+    if (!scheduleBody) return;
+    clearChildren(scheduleBody);
+    const rows = getReservationsForWeek(planningWeekKey);
+    rows.forEach((item) => {
+      const tr = document.createElement("tr");
+      const cells = [
+        new Date(item.date).toLocaleDateString("fr-FR", { weekday: "short", day: "2-digit", month: "2-digit" }),
+        item.heure,
+        item.nom,
+        item.soin,
+        item.cabine,
+        getSourceLabel(item)
+      ];
+      cells.forEach((value, index) => {
+        const td = document.createElement("td");
+        if (index === 5) {
+          const badge = document.createElement("span");
+          badge.className = `source-badge ${item.source === "manual" ? "manual" : "auto"}`;
+          badge.textContent = value;
+          td.appendChild(badge);
+        } else {
+          td.textContent = value;
+        }
+        tr.appendChild(td);
+      });
+      scheduleBody.appendChild(tr);
+    });
+    renderReservationStream(autoReservationsList, rows.filter((item) => item.source !== "manual"));
+    renderReservationStream(manualReservationsList, rows.filter((item) => item.source === "manual"));
+    if (planningWeekLabel) planningWeekLabel.textContent = formatWeekLabel(planningWeekKey);
   }
 
-  function bindIdleWatchers() {
-    const events = ["mousemove", "mousedown", "keydown", "touchstart", "scroll"];
-    events.forEach((evt) => window.addEventListener(evt, resetIdleTimer, { passive: true }));
-  }
+  function renderStockWeek() {
+    if (!stockWeekTableBody) return;
+    const rows = ensureWeekStock(stockWeekKey);
+    clearChildren(stockWeekTableBody);
 
-  async function apiEmployee(path, options = {}) {
-    const response = await fetch(path, { ...options });
-    const data = await response.json().catch(() => ({}));
-    if (response.status === 401) {
-      clearEmployeeSession("Session employee invalide.");
-    }
-    if (!response.ok) throw new Error(data.error || "Erreur employee");
-    resetIdleTimer();
-    return data;
-  }
-
-  function renderPlanning(rows) {
-    if (!planningBody) return;
-    planningBody.innerHTML = "";
     rows.forEach((row) => {
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${row.date}</td><td>${row.heure}</td><td>${row.total}</td><td>${row.details.map((d) => `${d.nom} (${d.cabine})`).join(", ")}</td>`;
-      planningBody.appendChild(tr);
-    });
-  }
 
-  function renderDemandes(rows) {
-    if (!demandesBody) return;
-    demandesBody.innerHTML = "";
-    rows.forEach((r) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${new Date(r.createdAt).toLocaleDateString("fr-FR")}</td><td>${r.nom}</td><td>${r.sujet}</td><td>${r.message}</td>`;
-      demandesBody.appendChild(tr);
-    });
-  }
+      const productCell = document.createElement("td");
+      productCell.textContent = row.product;
+      tr.appendChild(productCell);
 
-  function renderStocks(rows) {
-    if (!stocksBody) return;
-    stocksBody.innerHTML = "";
-    rows.forEach((s) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${s.name}</td><td><input type="number" min="0" step="1" value="${s.qty}" data-stock-id="${s.id}" style="width:90px"></td><td>${s.unit}</td><td><div style="display:flex;gap:0.45rem;flex-wrap:wrap"><button class="cta" type="button" data-stock-save="${s.id}">Save</button><button class="cta danger" type="button" data-stock-delete="${s.id}">Suppr</button></div></td>`;
-      stocksBody.appendChild(tr);
+      ["initial", "used"].forEach((field) => {
+        const td = document.createElement("td");
+        const input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.step = "1";
+        input.value = String(row[field] || 0);
+        input.dataset.stockWeek = stockWeekKey;
+        input.dataset.stockId = row.id;
+        input.dataset.stockField = field;
+        input.className = "stock-input";
+        td.appendChild(input);
+        tr.appendChild(td);
+      });
+
+      const remainingCell = document.createElement("td");
+      remainingCell.textContent = String(Math.max((row.initial || 0) - (row.used || 0), 0));
+      tr.appendChild(remainingCell);
+
+      stockWeekTableBody.appendChild(tr);
     });
-    stocksBody.querySelectorAll("input[data-stock-id]").forEach((input) => {
+
+    stockWeekTableBody.querySelectorAll(".stock-input").forEach((input) => {
       input.addEventListener("input", () => {
-        const value = Number(input.value);
-        if (!Number.isFinite(value) || value < 0) input.value = "0";
-        if (Number.isFinite(value)) input.value = String(Math.floor(value));
-      });
-    });
-    stocksBody.querySelectorAll("[data-stock-save]").forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const id = btn.getAttribute("data-stock-save");
-        const input = stocksBody.querySelector(`[data-stock-id="${id}"]`);
-        const qty = Number(input ? input.value : 0);
-        try {
-          const data = await apiEmployee("/api/employee/stocks", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id, qty })
-          });
-          renderStocks(data.stocks);
-          if (stocksStatus) {
-            stocksStatus.textContent = "Stock mis a jour.";
-            stocksStatus.classList.remove("error");
-          }
-        } catch (error) {
-          if (stocksStatus) {
-            stocksStatus.textContent = error.message;
-            stocksStatus.classList.add("error");
-          }
+        const value = Math.max(Number(input.value) || 0, 0);
+        const stockWeeks = getStockWeeks();
+        const weekRows = stockWeeks[input.dataset.stockWeek] || [];
+        const currentRow = weekRows.find((row) => row.id === input.dataset.stockId);
+        if (!currentRow) return;
+        currentRow[input.dataset.stockField] = value;
+        stockWeeks[input.dataset.stockWeek] = weekRows;
+        saveStockWeeks(stockWeeks);
+        renderStockWeek();
+        if (stocksStatus) {
+          stocksStatus.textContent = "Stock semaine mis a jour.";
+          stocksStatus.classList.remove("error");
         }
       });
     });
-    stocksBody.querySelectorAll("[data-stock-delete]").forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const id = btn.getAttribute("data-stock-delete");
-        const confirmed = window.confirm("Supprimer ce produit du stock ?");
-        if (!confirmed) return;
-        try {
-          const data = await apiEmployee("/api/employee/stocks/delete", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id })
-          });
-          renderStocks(data.stocks);
-          if (stocksStatus) {
-            stocksStatus.textContent = "Produit supprime du stock.";
-            stocksStatus.classList.remove("error");
-          }
-        } catch (error) {
-          if (stocksStatus) {
-            stocksStatus.textContent = error.message;
-            stocksStatus.classList.add("error");
-          }
-        }
-      });
+
+    if (stockWeekLabel) stockWeekLabel.textContent = formatWeekLabel(stockWeekKey);
+  }
+
+  function switchTab(tabName) {
+    tabButtons.forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.tabTarget === tabName);
+    });
+    tabPanels.forEach((panel) => {
+      panel.hidden = panel.dataset.tabPanel !== tabName;
     });
   }
 
-  function renderNotes(rows) {
-    if (!notesList) return;
-    notesList.innerHTML = "";
-    rows.forEach((n) => {
-      const li = document.createElement("li");
-      li.innerHTML = `<span>${new Date(n.createdAt).toLocaleString("fr-FR")} - ${n.note}</span><strong></strong>`;
-      notesList.appendChild(li);
-    });
-  }
-
-  async function loadDashboard() {
-    const data = await apiEmployee("/api/employee/dashboard");
-    renderPlanning(data.planning || []);
-    renderDemandes(data.demandes || []);
-    renderStocks(data.stocks || []);
-    renderNotes(data.notes || []);
-  }
-
-  async function login(code) {
-    const response = await fetch("/api/employee/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code })
-    });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || "Connexion employee impossible");
-    setEmployeeStatus("Connexion validee. Chargement...");
-    setEmployeeVisible(false);
-    await loadDashboard();
+  function openEmployeeSession() {
     setEmployeeVisible(true);
-    setEmployeeStatus("Connecte.");
-    employeeActive = true;
-    resetIdleTimer();
+    if (welcomeEl) welcomeEl.textContent = "Bonjour equipe Temple";
+    if (sessionMetaEl) sessionMetaEl.textContent = "Planning de la semaine, reservations auto/manuelles et stock editable.";
+    renderSchedule();
+    renderStockWeek();
+    switchTab("planning");
+    setEmployeeStatus("Connexion employee reussie.");
   }
 
-  loginForm.addEventListener("submit", async (event) => {
+  loginForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    setEmployeeStatus("Connexion...");
-    try {
-      await login(codeInput ? codeInput.value : "");
-    } catch (error) {
-      setEmployeeStatus(error.message, true);
+    const email = String(emailInput ? emailInput.value : "").trim().toLowerCase();
+    const password = String(passwordInput ? passwordInput.value : "").trim();
+    if (email !== DEMO_EMPLOYEE_PROFILE.email || password !== DEMO_EMPLOYEE_PROFILE.password) {
+      setEmployeeStatus("Identifiants employe invalides. Utilisez le compte test affiche.", true);
+      return;
     }
+    setEmployeeSession(true);
+    openEmployeeSession();
   });
 
-  if (noteForm) {
-    noteForm.addEventListener("submit", async (event) => {
+  if (manualReservationForm) {
+    manualReservationForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      const note = noteInput ? noteInput.value.trim() : "";
-      if (!note) return;
-      try {
-        const data = await apiEmployee("/api/employee/planning-note", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ note })
-        });
-        renderNotes(data.notes || []);
-        if (noteInput) noteInput.value = "";
-      } catch (error) {
-        setEmployeeStatus(error.message, true);
-      }
-    });
-  }
-
-  if (stockAddForm) {
-    stockAddForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const name = stockNameInput ? stockNameInput.value.trim() : "";
-      const unit = stockUnitInput ? stockUnitInput.value.trim() : "";
-      const qty = Number(stockQtyInput ? stockQtyInput.value : 0);
-      if (!name || !unit || !Number.isFinite(qty) || qty < 0) {
-        if (stocksStatus) {
-          stocksStatus.textContent = "Nom, unite et quantite valides requis.";
-          stocksStatus.classList.add("error");
+      const payload = formDataAsObject(manualReservationForm);
+      const reservation = {
+        id: createId("manual"),
+        source: "manual",
+        origin: "employee",
+        nom: String(payload.nom || "").trim(),
+        soin: String(payload.soin || "").trim(),
+        date: String(payload.date || "").trim(),
+        heure: String(payload.heure || "").trim(),
+        cabine: String(payload.cabine || "").trim(),
+        commentaire: String(payload.commentaire || "").trim(),
+        createdAt: new Date().toISOString()
+      };
+      if (!reservation.nom || !reservation.soin || !reservation.date || !reservation.heure || !reservation.cabine) {
+        if (manualReservationStatus) {
+          manualReservationStatus.textContent = "Merci de completer tous les champs de reservation manuelle.";
+          manualReservationStatus.classList.add("error");
         }
         return;
       }
-      try {
-        const data = await apiEmployee("/api/employee/stocks/add", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, unit, qty })
-        });
-        renderStocks(data.stocks);
-        if (stockAddForm) stockAddForm.reset();
-        if (stockQtyInput) stockQtyInput.value = "0";
-        if (stocksStatus) {
-          stocksStatus.textContent = "Produit ajoute au stock.";
-          stocksStatus.classList.remove("error");
-        }
-      } catch (error) {
-        if (stocksStatus) {
-          stocksStatus.textContent = error.message;
-          stocksStatus.classList.add("error");
-        }
+      const reservations = getReservations();
+      reservations.push(reservation);
+      saveReservations(reservations);
+      manualReservationForm.reset();
+      if (manualReservationStatus) {
+        manualReservationStatus.textContent = "Reservation manuelle ajoutee au planning.";
+        manualReservationStatus.classList.remove("error");
       }
+      planningWeekKey = getWeekKeyFromDate(reservation.date);
+      renderSchedule();
+    });
+  }
+
+  tabButtons.forEach((button) => {
+    button.addEventListener("click", () => switchTab(button.dataset.tabTarget || "planning"));
+  });
+
+  if (planningPrevWeekBtn) {
+    planningPrevWeekBtn.addEventListener("click", () => {
+      planningWeekKey = shiftWeekKey(planningWeekKey, -1);
+      renderSchedule();
+    });
+  }
+  if (planningNextWeekBtn) {
+    planningNextWeekBtn.addEventListener("click", () => {
+      planningWeekKey = shiftWeekKey(planningWeekKey, 1);
+      renderSchedule();
+    });
+  }
+  if (stockPrevWeekBtn) {
+    stockPrevWeekBtn.addEventListener("click", () => {
+      stockWeekKey = shiftWeekKey(stockWeekKey, -1);
+      renderStockWeek();
+    });
+  }
+  if (stockNextWeekBtn) {
+    stockNextWeekBtn.addEventListener("click", () => {
+      stockWeekKey = shiftWeekKey(stockWeekKey, 1);
+      renderStockWeek();
     });
   }
 
   if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
-      if (!employeeActive) return;
-      const confirmed = window.confirm("Confirmer la deconnexion de l'espace employe ?");
-      if (!confirmed) return;
-      try {
-        await fetch("/api/employee/logout", {
-          method: "POST"
-        });
-      } catch {
-        // ignore network errors on logout
-      } finally {
-        clearEmployeeSession("Deconnecte.");
-      }
+    logoutBtn.addEventListener("click", () => {
+      setEmployeeSession(false);
+      setEmployeeVisible(false);
+      setEmployeeStatus("Deconnecte.");
     });
   }
 
-  try {
-    await loadDashboard();
-    setEmployeeVisible(true);
-    setEmployeeStatus("Session employee active.");
-    employeeActive = true;
-    resetIdleTimer();
-  } catch {
-    clearEmployeeSession("Acces reserve aux employes.");
+  if (getEmployeeSession()) {
+    openEmployeeSession();
+  } else {
+    setEmployeeVisible(false);
+    setEmployeeStatus("Acces reserve aux employes.");
   }
-
-  bindIdleWatchers();
 }
 
 initEmployeeArea();
